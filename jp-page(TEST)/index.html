@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artwork Message</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.5s ease;
+        }
+        #quote-container {
+            background: rgba(255, 255, 255, 0.75);
+            padding: 35px 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .lang-block {
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        .lang-japanese {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Action Button Styles */
+        #action-btn {
+            margin-top: 25px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #0076ff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,118,255,0.3);
+            transition: all 0.2s ease;
+            width: 80%;
+            max-width: 250px;
+        }
+        #action-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Form Styles */
+        #message-form-container {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input & Textarea Styles */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        #submit-btn {
+            padding: 10px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(16,185,129,0.3);
+            transition: all 0.2s ease;
+        }
+        #submit-btn:active {
+            transform: scale(0.95);
+            background-color: #059669;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quote-container">
+        <div id="content-body">Loading...</div>
+        
+        <button id="action-btn" onclick="toggleForm()">💌 感謝の言葉を送る</button>
+
+        <div id="message-form-container">
+            <form id="thank-you-form" method="POST">
+                <input type="hidden" name="access_key" value="b36100a4-93f6-4679-9917-724a9ff72233">
+                
+                <input type="hidden" name="subject" value="New Gratitude Message Received">
+                <input type="hidden" name="from_name" value="Artwork System">
+                
+                <input type="text" name="bukai" placeholder="部会 / District (Optional)">
+                <input type="text" name="kei" placeholder="経 / Lineage (Optional)">
+                <input type="text" name="name" placeholder="お名前 / Name (Optional)">
+                
+                <textarea name="message" rows="4" placeholder="Enter your message here..." required></textarea>
+                <br>
+                <button type="submit" id="submit-btn">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Configuration
+        const quotesData = [
+            {
+                jpn: "いつも一緒。いつもそばにいてくださる。<br>それが、みほとけ。<br><br>つらく、せつなく、<br>自信をなくしかけたとき、<br>眼を閉じて思い出してみてください。<br>自分は、みほとけとともにある――と。",
+                image: "bg1.jpg"
+            },
+            {
+                jpn: "姿やカタチをきれいにするのは<br>とてもよいこと。<br><br>それに心のこもった言葉や態度が加われば<br>もっと美しくなれるのです。",
+                image: "bg2.jpg"
+            },
+            {
+                jpn: "「がんばろう」と思えたこと、<br>すばらしいですね。<br><br>けれども急にしたら<br>疲れてしまうかもしれません。<br>無理せず、少しずつ。<br>できることから始めてみませんか。",
+                image: "bg3.jpg"
+            }
+        ];
+
+        window.onload = function() {
+            try {
+                const randomIndex = Math.floor(Math.random() * quotesData.length);
+                const selectedSet = quotesData[randomIndex];
+                
+                document.body.style.backgroundImage = `url('${selectedSet.image}')`;
+                
+                let htmlContent = "";
+                if(selectedSet.jpn) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jpn}</div>`;
+                
+                document.getElementById("content-body").innerHTML = htmlContent;
+            } catch (error) {
+                alert("Loading Error");
+                console.error("Error details:", error);
+            }
+        };
+
+        // Toggle Form Visibility
+        function toggleForm() {
+            const formContainer = document.getElementById('message-form-container');
+            const actionBtn = document.getElementById('action-btn');
+            formContainer.style.display = 'block';
+            actionBtn.style.display = 'none';
+        }
+
+        // Handle Form Submission via AJAX (Web3Forms API)
+        const form = document.getElementById('thank-you-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.innerText = "Sending...";
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let res = await response.json();
+                if (response.status === 200) {
+                    // English Success popup
+                    alert("Thank you! Your message has been sent successfully.");
+                    form.reset();
+                    document.getElementById('message-form-container').style.display = 'none';
+                    
+                    const actionBtn = document.getElementById('action-btn');
+                    actionBtn.innerText = "💌 Message Sent";
+                    actionBtn.style.display = 'inline-block';
+                    actionBtn.disabled = true;
+                    actionBtn.style.backgroundColor = "#ccc";
+                    actionBtn.style.boxShadow = "none";
+                } else {
+                    alert("Transmission failed: " + res.message);
+                    submitBtn.innerText = "Send";
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch((error) => {
+                // English Error popup
+                alert("Transmission failed. Please try again later.");
+                console.error(error);
+                submitBtn.innerText = "Send";
+                submitBtn.disabled = false;
+            });
+        });
+    </script>
+
+</body>
+</html>

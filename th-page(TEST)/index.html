@@ -185,6 +185,7 @@
             submitBtn.disabled = true;
 
             const formData = new FormData(form);
+            formData.append("lang", "Thai");
             const searchParams = new URLSearchParams(formData);
 
             // ★【重要】ここに日本語版と同じ、または新しく作ったGASのURLを貼り付けてください！

@@ -25,7 +25,8 @@
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            max-width: 600px;
+            /* 💡最大幅を600pxから390pxに絞りました。これで大画面スマホでも折り返しが固定されます */
+            max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
             max-height: 90vh;
@@ -38,7 +39,7 @@
         }
 
         .lang-japanese {
-            font-size: 16px; /* 💡18pxから16pxに少し小さく調整しました */
+            font-size: 16px;
             font-weight: bold;
             color: #333;
             word-break: break-word;
@@ -194,7 +195,7 @@
             }
 
             const formData = new FormData(form);
-            formData.append("lang", "JP"); // ★自動でスプレッドシートに「JP」と入るおまじない
+            formData.append("lang", "JP");
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);

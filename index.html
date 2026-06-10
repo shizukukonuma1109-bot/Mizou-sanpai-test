@@ -41,6 +41,7 @@
             font-size: 18px;
             font-weight: bold;
             color: #333;
+            word-break: break-word;
         }
 
         /* Action Button Styles */
@@ -65,7 +66,7 @@
 
         /* Form Styles */
         #message-form-container {
-            display: none; /* Initially hidden */
+            display: none;
             margin-top: 20px;
             animation: fadeIn 0.5s ease;
         }
@@ -113,35 +114,39 @@
     <div id="quote-container">
         <div id="content-body">Loading...</div>
         
-        <button id="action-btn" onclick="toggleForm()">💌 感謝の言葉を送る</button>
+        <button id="action-btn" onclick="toggleForm()">💌 感謝のメッセージを送る</button>
 
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="部会 / District (Optional)">
-                <input type="text" name="kei" placeholder="経 / Lineage (Optional)">
-                <input type="text" name="name" placeholder="お名前 / Name (Optional)">
+                <input type="text" name="bukai" placeholder="部会（任意）">
+                <input type="text" name="kei" placeholder="経（任意）">
+                <input type="text" name="name" placeholder="お名前（任意）">
                 
-                <textarea name="message" rows="4" placeholder="Enter your message here..." required></textarea>
+                <textarea name="message" rows="4" placeholder="メッセージを入力してください..." required></textarea>
                 <br>
-                <button type="submit" id="submit-btn">Send</button>
+                <button type="submit" id="submit-btn">送信</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Data Configuration
+        // 日本語メッセージ（4パターン）と背景画像の組み合わせ
         const quotesData = [
             {
-                jpn: "いつも一緒。いつもそばにいてくださる。<br>それが、みほとけ。<br><br>つらく、せつなく、<br>自信をなくしかけたとき、<br>眼を閉じて思い出してみてください。<br>自分は、みほとけとともにある――と。",
+                jp: "仏様はいつも私たちのそばにいます。落ち込んだり、人生の壁にぶつかったりした時は、そっと目を閉じてこのことを思い出してください。",
                 image: "bg1.jpg"
             },
             {
-                jpn: "姿やカタチをきれいにするのは<br>とてもよいこと。<br><br>それに心のこもった言葉や態度が加われば<br>もっと美しくなれるのです。",
+                jp: "仏様はみんなの心の中にいます。親切でありたい、人を助けたい、誠実でありたいと願うその優しい心の中に、いつでも仏様はいらっしゃいます。",
                 image: "bg2.jpg"
             },
             {
-                jpn: "「がんばろう」と思えたこと、<br>すばらしいですね。<br><br>けれども急にしたら<br>疲れてしまうかもしれません。<br>無理せず、少しずつ。<br>できることから始めてみませんか。",
+                jp: "感謝の心を持つたびに、あなたの心は美しく輝きます。",
                 image: "bg3.jpg"
+            },
+            {
+                jp: "「自分には何もあげるものがない」なんて決して思わないでください。仏様も、多くの人もあなたを信じています。前を向いて、今できる最善を尽くしていきましょう。",
+                image: "bg4.jpg"
             }
         ];
 
@@ -150,10 +155,11 @@
                 const randomIndex = Math.floor(Math.random() * quotesData.length);
                 const selectedSet = quotesData[randomIndex];
                 
-                document.body.style.backgroundImage = `url('${selectedSet.image}')`;
+                // 背景画像を設定（1つ上の階層の画像を指定）
+                document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
                 
                 let htmlContent = "";
-                if(selectedSet.jpn) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jpn}</div>`;
+                if(selectedSet.jp) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jp}</div>`;
                 
                 document.getElementById("content-body").innerHTML = htmlContent;
             } catch (error) {
@@ -162,7 +168,6 @@
             }
         };
 
-        // Toggle Form Visibility
         function toggleForm() {
             const formContainer = document.getElementById('message-form-container');
             const actionBtn = document.getElementById('action-btn');
@@ -170,52 +175,41 @@
             actionBtn.style.display = 'none';
         }
 
-        // Handle Form Submission via AJAX (Google GAS API)
+        // 送信処理（JSON形式 ＋ 言語スタンプ自動追加）
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submit-btn');
-            submitBtn.innerText = "Sending...";
-            submitBtn.disabled = true;
+            if (submitBtn) {
+                submitBtn.innerText = "Sending...";
+                submitBtn.disabled = true;
+            }
 
             const formData = new FormData(form);
-            const searchParams = new URLSearchParams(formData);
+            formData.append("lang", "JP"); // ★自動でスプレッドシートに「JP」と入るおまじない
 
-            // ★【重要】ここにGoogleで取得した長いURL（https://script.google.com/.../exec）を貼り付けてください
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            // ★【重要】ここにいつものGASのURLを貼り付けてください！
             const gasUrl = 'https://script.google.com/macros/s/AKfycbyG_zASneceAHfO8n3en4w5-JH94hHJfx8mQAZzdxXqRjYZAaVtfvkdz11kbK0MYP9y/exec';
 
             fetch(gasUrl, {
                 method: 'POST',
-                body: searchParams
+                body: json
             })
             .then(async (response) => {
                 let res = await response.json();
                 if (res.status === "success") {
                     alert("Thank you! Your message has been sent successfully.");
                     form.reset();
-                    document.getElementById('message-form-container').style.display = 'none';
+                    
+                    const formContainer = document.getElementById('message-form-container');
+                    if (formContainer) formContainer.style.display = 'none';
                     
                     const actionBtn = document.getElementById('action-btn');
-                    actionBtn.innerText = "💌 Message Sent";
-                    actionBtn.style.display = 'inline-block';
-                    actionBtn.disabled = true;
-                    actionBtn.style.backgroundColor = "#ccc";
-                    actionBtn.style.boxShadow = "none";
-                } else {
-                    alert("Transmission failed: " + (res.message || "Unknown error"));
-                    submitBtn.innerText = "Send";
-                    submitBtn.disabled = false;
-                }
-            })
-            .catch((error) => {
-                alert("Transmission failed. Please try again later.");
-                console.error(error);
-                submitBtn.innerText = "Send";
-                submitBtn.disabled = false;
-            });
-        });
-    </script>
-
-</body>
-</html>
+                    if (actionBtn) {
+                        actionBtn.innerText = "💌 Message Sent";
+                        actionBtn.style.display = 'inline-block';
+                        actionBtn.disabled =

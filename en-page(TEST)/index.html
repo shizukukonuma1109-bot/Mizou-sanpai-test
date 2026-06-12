@@ -35,7 +35,7 @@
         
         .lang-block {
             margin-bottom: 0;
-            line-height: 1.6; /* Slightly adjusted for English legibility */
+            line-height: 1.6;
         }
 
         .lang-english {
@@ -115,7 +115,7 @@
     <div id="quote-container">
         <div id="content-body">Loading...</div>
         
-        <button id="action-btn" onclick="toggleForm()">💌 Send a Thank-You Message</button>
+        <button id="action-btn" onclick="toggleForm()">💌 Message of Gratitude</button>
 
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
@@ -131,7 +131,6 @@
     </div>
 
     <script>
-        // 23 English messages and image pairings
         const quotesData = [
             { en: "The buddhas are always with us, right by our side.<br>Close your eyes and remember this whenever you are feeling low or facing difficulties in your life.", image: "bg1.jpg" },
             { en: "I come to understand the Buddha's heart through your warmth. Thank you.", image: "bg2.jpg" },
@@ -163,7 +162,6 @@
                 const randomIndex = Math.floor(Math.random() * quotesData.length);
                 const selectedSet = quotesData[randomIndex];
                 
-                // Fetch images from the main directory (../)
                 document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
                 
                 let htmlContent = "";
@@ -194,7 +192,7 @@
             }
 
             const formData = new FormData(form);
-            formData.append("lang", "EN"); // Language stamp for the spreadsheet
+            formData.append("lang", "EN");
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
@@ -209,7 +207,7 @@
             .then(async (response) => {
                 let res = await response.json();
                 if (res.status === "success") {
-                    alert("Thank you! Your message has been sent successfully.");
+                    alert("Your message of gratitude has been sent successfully.");
                     form.reset();
                     
                     const formContainer = document.getElementById('message-form-container');
@@ -217,7 +215,7 @@
                     
                     const actionBtn = document.getElementById('action-btn');
                     if (actionBtn) {
-                        actionBtn.innerText = "💌 Message Sent";
+                        actionBtn.innerText = "💌 Sent";
                         actionBtn.style.display = 'inline-block';
                         actionBtn.disabled = true;
                         actionBtn.style.backgroundColor = "#ccc";

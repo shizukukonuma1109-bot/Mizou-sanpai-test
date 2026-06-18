@@ -14,7 +14,6 @@
             margin: 0;
             padding: 15px;
             text-align: center;
-            
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -31,20 +30,16 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        
         .lang-block {
             margin-bottom: 0;
             line-height: 1.8;
         }
-
         .lang-english {
             font-size: 16px;
             font-weight: bold;
             color: #333;
             word-break: break-word;
         }
-
-        /* Action Button Style */
         #action-btn {
             margin-top: 25px;
             padding: 12px 24px;
@@ -60,11 +55,7 @@
             width: 80%;
             max-width: 250px;
         }
-        #action-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Form Style */
+        #action-btn:active { transform: scale(0.95); }
         #message-form-container {
             display: none;
             margin-top: 20px;
@@ -74,8 +65,6 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Input Style */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
@@ -86,11 +75,7 @@
             margin-bottom: 12px;
             font-family: inherit;
         }
-        textarea {
-            resize: vertical;
-            margin-bottom: 15px;
-        }
-
+        textarea { resize: vertical; margin-bottom: 15px; }
         #submit-btn {
             padding: 10px 30px;
             font-size: 16px;
@@ -103,12 +88,7 @@
             box-shadow: 0 4px 10px rgba(16,185,129,0.3);
             transition: all 0.2s ease;
         }
-        #submit-btn:active {
-            transform: scale(0.95);
-            background-color: #059669;
-        }
-
-        /* 1-Second Instant Member Check Popup Overlay */
+        #submit-btn:active { transform: scale(0.95); background-color: #059669; }
         #statusModal {
             position: fixed;
             top: 0;
@@ -117,7 +97,7 @@
             height: 100%;
             background: rgba(255, 255, 255, 0.98);
             z-index: 9999;
-            display: none; /* Controlled dynamically by JavaScript */
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -148,23 +128,9 @@
             cursor: pointer;
             transition: transform 0.1s, opacity 0.2s;
         }
-        .modal-btn:active {
-            transform: scale(0.97);
-        }
-        .btn-member {
-            background-color: #2ecc71;
-            color: white;
-        }
-        .btn-member:hover {
-            opacity: 0.9;
-        }
-        .btn-nonmember {
-            background-color: #95a5a6;
-            color: white;
-        }
-        .btn-nonmember:hover {
-            opacity: 0.9;
-        }
+        .modal-btn:active { transform: scale(0.97); }
+        .btn-member { background-color: #2ecc71; color: white; }
+        .btn-nonmember { background-color: #95a5a6; color: white; }
     </style>
 </head>
 <body>
@@ -179,15 +145,12 @@
 
     <div id="quote-container">
         <div id="content-body">Loading...</div>
-        
         <button id="action-btn" onclick="toggleForm()">💌 Message of Gratitude</button>
-
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
                 <input type="text" name="bukai" placeholder="Division (Optional)">
                 <input type="text" name="kei" placeholder="Lineage (Optional)">
                 <input type="text" name="name" placeholder="Name (Optional)">
-                
                 <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
                 <br>
                 <button type="submit" id="submit-btn">Submit</button>
@@ -196,7 +159,6 @@
     </div>
 
     <script>
-        // 💡 23 Inspirational Messages (English Version)
         const quotesData = [
             { en: "Always together. Always by your side.<br>That is Buddha. When you feel down, sad,<br>or lose confidence,<br>close your eyes and remember.<br>You are always with Buddha.", image: "bg1.jpg" },
             { en: "I came to know the \"heart\" of Buddha through your kindness. Thank you.", image: "bg2.jpg" },
@@ -223,95 +185,67 @@
             { en: "Doing good deeds may require conscious effort at first<br>to keep it going. As you keep telling yourself over and over,<br>doing good will naturally become a \"habit.\"<br>At that moment, you will find a wonderful version of yourself.", image: "bg23.jpg" }
         ];
 
-        // 💡 [Important] Paste your common Google Apps Script (GAS) Web app URL here!
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbyzbaI0RWo2P5VgtPqznkuoXDxvg8Se-01X4jBoWeCZkOg1MzE4wQ4H69RSZZ8qaD6I/exec';
+        // 💡 GASの最新ウェブアプリURLをここに貼り付けます
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbzJlVnqwmbxi-3MhdROx5QX0Fxgz5qwBrmK0oJAjiHQl_UCj_I-SKo44Y5A__iU4KC5/exec';
+
+        // メンバー状態を記憶する変数
+        let selectedMemberStatus = "Unknown"; 
 
         window.onload = function() {
             try {
-                // --- [Daily Duplicate Cut] Auto Count Access Log ---
-                const today = new Date().toISOString().split('T')[0];
-                const lastVisitDate = localStorage.getItem('lastVisitDate_EN');
-                
-                // 🛠️ 【Test Mode】Force pop-up to show every single time for testing
+                // 【テストモード】毎回ポップアップを出す設定にしています
                 document.getElementById("statusModal").style.display = "flex";
-                // -----------------------------------------------------------
 
                 const randomIndex = Math.floor(Math.random() * quotesData.length);
                 const selectedSet = quotesData[randomIndex];
-                
                 document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
                 
                 let htmlContent = "";
                 if(selectedSet.en) htmlContent += `<div class="lang-block lang-english">${selectedSet.en}</div>`;
-                
                 document.getElementById("content-body").innerHTML = htmlContent;
             } catch (error) {
                 alert("An error occurred while loading.");
-                console.error("Error details:", error);
             }
         };
 
-        // Fired instantly when Member or Non-Member is clicked
         function selectStatus(statusValue) {
-            // 1. Hide the modal instantly
+            selectedMemberStatus = statusValue; // 選択された状態を記憶！
             document.getElementById("statusModal").style.display = "none";
-
-            // 2. Transmit payload to GAS via fetch API
             const today = new Date().toISOString().split('T')[0];
             
             fetch(gasUrl, {
                 method: 'POST',
-                body: JSON.stringify({ 
-                    type: "access", 
-                    lang: "EN", 
-                    status: statusValue 
-                })
+                body: JSON.stringify({ type: "access", lang: "EN", status: statusValue })
             })
-            .then(() => {
-                // Lock the daily duplicate log check only after successful transmission trigger
-                localStorage.setItem('lastVisitDate_EN', today);
-            })
-            .catch((err) => {
-                console.error("Transmission failed: ", err);
-            });
+            .then(() => { localStorage.setItem('lastVisitDate_EN', today); })
+            .catch((err) => { console.error("Transmission failed: ", err); });
         }
 
         function toggleForm() {
-            const formContainer = document.getElementById('message-form-container');
-            const actionBtn = document.getElementById('action-btn');
-            formContainer.style.display = 'block';
-            actionBtn.style.display = 'none';
+            document.getElementById('message-form-container').style.display = 'block';
+            document.getElementById('action-btn').style.display = 'none';
         }
 
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) {
-                submitBtn.innerText = "Sending...";
-                submitBtn.disabled = true;
-            }
+            if (submitBtn) { submitBtn.innerText = "Sending..."; submitBtn.disabled = true; }
 
             const formData = new FormData(form);
             formData.append("lang", "EN"); 
+            formData.append("status", selectedMemberStatus); // ★選択されたメンバー状態をメッセージと一緒に送信！
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
 
-            fetch(gasUrl, {
-                method: 'POST',
-                body: json
-            })
+            fetch(gasUrl, { method: 'POST', body: json })
             .then(async (response) => {
                 let res = await response.json();
                 if (res.status === "success") {
                     alert("Your message of gratitude has been sent successfully.");
                     form.reset();
-                    
-                    const formContainer = document.getElementById('message-form-container');
-                    if (formContainer) formContainer.style.display = 'none';
-                    
+                    document.getElementById('message-form-container').style.display = 'none';
                     const actionBtn = document.getElementById('action-btn');
                     if (actionBtn) {
                         actionBtn.innerText = "💌 Sent";
@@ -322,19 +256,12 @@
                     }
                 } else {
                     alert("Failed to send: " + (res.message || "Unknown error"));
-                    if (submitBtn) {
-                        submitBtn.innerText = "Submit";
-                        submitBtn.disabled = false;
-                    }
+                    if (submitBtn) { submitBtn.innerText = "Submit"; submitBtn.disabled = false; }
                 }
             })
             .catch((error) => {
-                alert("A connection error occurred. Please try again later.");
-                console.error(error);
-                if (submitBtn) {
-                    submitBtn.innerText = "Submit";
-                    submitBtn.disabled = false;
-                }
+                alert("A connection error occurred.");
+                if (submitBtn) { submitBtn.innerText = "Submit"; submitBtn.disabled = false; }
             });
         });
     </script>

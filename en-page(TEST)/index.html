@@ -113,7 +113,7 @@
         /* 🌈 CSSだけで実現する「虹色グラデーション枠」＋「白の透かしボックス」 */
         .modal-title {
             position: relative;
-            font-size: 22px; /* 画面に収まりやすくするため少しだけ調整 */
+            font-size: 22px; 
             font-weight: bold;
             margin-bottom: 35px;
             text-align: center;
@@ -123,30 +123,30 @@
             /* ✨ 横幅の調整と、🌸を絶対に改行させない魔法の設定 */
             width: 95%;
             max-width: 365px;
-            white-space: nowrap; /* これで1行に強制ロックします */
+            white-space: nowrap; 
             padding: 20px 10px;
             box-sizing: border-box;
             z-index: 1;
             display: inline-block;
         }
         
-        /* 💡 【裏技】文字のすぐ後ろにCSSで虹色のグラデーション層を敷く */
+        /* 💡 文字のすぐ後ろにCSSで虹色のグラデーション層を敷く */
         .modal-title::before {
             content: "";
             position: absolute;
-            top: -4px; left: -4px; right: -4px; bottom: -4px; /* 4px分だけ外にはみ出させて枠線にする */
+            top: -4px; left: -4px; right: -4px; bottom: -4px; 
             background: linear-gradient(45deg, #ff3366, #ff9933, #ffff33, #33cc66, #3399ff, #9933ff);
             border-radius: 16px;
             z-index: -2;
             box-shadow: 0 4px 15px rgba(0,0,0,0.25);
         }
         
-        /* 💡 【裏技】さらにその上に重なる「白の透かし（半透明）」の層 */
+        /* 💡 【修正箇所】さらにその上に重なる「白の透かし（半透明）」の層 */
         .modal-title::after {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.60); /* 88%の白すかし */
+            background: rgba(255, 255, 255, 0.62); /* 0.88から0.62に薄くして、後ろの写真をより透けさせました */
             border-radius: 12px;
             z-index: -1;
         }

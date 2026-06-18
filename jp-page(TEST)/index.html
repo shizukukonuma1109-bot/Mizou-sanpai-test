@@ -25,7 +25,7 @@
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            /* 最大幅を390pxにして大画面スマホでも折り返しを固定 */
+            /* スマホ等での改行位置を一定にするための固定幅 */
             max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
@@ -35,7 +35,7 @@
         
         .lang-block {
             margin-bottom: 0;
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
         .lang-japanese {
@@ -45,7 +45,7 @@
             word-break: break-word;
         }
 
-        /* Action Button Styles */
+        /* アクションボタンのスタイル */
         #action-btn {
             margin-top: 25px;
             padding: 12px 24px;
@@ -65,7 +65,7 @@
             transform: scale(0.95);
         }
 
-        /* Form Styles */
+        /* フォームのスタイル */
         #message-form-container {
             display: none;
             margin-top: 20px;
@@ -76,7 +76,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Input & Textarea Styles */
+        /* 入力欄のスタイル */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
@@ -113,9 +113,9 @@
 <body>
 
     <div id="quote-container">
-        <div id="content-body">Loading...</div>
+        <div id="content-body">読み込み中...</div>
         
-        <button id="action-btn" onclick="toggleForm()">💌 感謝のメッセージを送る</button>
+        <button id="action-btn" onclick="toggleForm()">💌 感謝のメッセージ</button>
 
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
@@ -125,13 +125,13 @@
                 
                 <textarea name="message" rows="4" placeholder="メッセージを入力してください..." required></textarea>
                 <br>
-                <button type="submit" id="submit-btn">送信</button>
+                <button type="submit" id="submit-btn">送信する</button>
             </form>
         </div>
     </div>
 
     <script>
-        // 23個の日本語メッセージと背景画像の組み合わせ
+        // 💡 ご提示いただいた23個の日本語名言データ
         const quotesData = [
             { jp: "いつも一緒。いつもそばにいてくださる。<br>それが、みほとけ。つらく、せつなく、<br>自信をなくしかけたとき、<br>眼を閉じて思い出してみてください。<br> 自分は、みほとけとともにある――と。", image: "bg1.jpg" },
             { jp: "あなたのやさしさにみほとけの“こころ”を知りました。ありがとう。", image: "bg2.jpg" },
@@ -158,20 +158,38 @@
             { jp: "よいことをするにもはじめは“意識”して<br>おこなわないと続かないかもしれません。<br>何度も自分に言いきかせていくうちに<br>自然とよいことが“習慣”になります。<br>そのとき、ステキな自分が見つかりますよ。", image: "bg23.jpg" }
         ];
 
+        // 💡【重要】ここに新しくデプロイし直した共通のWeb app URLを貼り付けてください！
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbyw8pAvrfggC3fIJoLLemGFfadZd_Qr295XA6C-zqzCtnCLELzZAwOnnUcA08itDRV2/exec';
+
         window.onload = function() {
             try {
+                // --- 【同日重複カット】アクセスログの自動カウント ---
+                const today = new Date().toISOString().split('T')[0];
+                const lastVisitDate = localStorage.getItem('lastVisitDate');
+                
+                // 今日まだ一度もアクセスしていない場合のみGASに通知
+                if (lastVisitDate !== today) {
+                    fetch(gasUrl, {
+                        method: 'POST',
+                        body: JSON.stringify({ type: "access", lang: "JP" }) // 日本語版スタンプ
+                    });
+                    localStorage.setItem('lastVisitDate', today);
+                }
+                // -----------------------------------------------------------
+
                 const randomIndex = Math.floor(Math.random() * quotesData.length);
                 const selectedSet = quotesData[randomIndex];
                 
-                // 1つ上のMainフォルダにある写真を読み込むように設定（../）
+                // 画像フォルダ（Main）は1つ上の階層にある前提（../）
                 document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
                 
                 let htmlContent = "";
+                // 💡 データのキーを「jp」に変更したため、ここも一致させています
                 if(selectedSet.jp) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jp}</div>`;
                 
                 document.getElementById("content-body").innerHTML = htmlContent;
             } catch (error) {
-                alert("Loading Error");
+                alert("読み込みエラーが発生しました。");
                 console.error("Error details:", error);
             }
         };
@@ -183,25 +201,21 @@
             actionBtn.style.display = 'none';
         }
 
-        // 送信処理（JSON形式 ＋ 言語スタンプ自動追加）
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submit-btn');
             if (submitBtn) {
-                submitBtn.innerText = "Sending...";
+                submitBtn.innerText = "送信中...";
                 submitBtn.disabled = true;
             }
 
             const formData = new FormData(form);
-            formData.append("lang", "JP");
+            formData.append("lang", "JP"); // スプレッドシートに「JP」と記録
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
-
-            // 💡【重要】ここにGoogle Apps Script（GAS）のURLを貼り付けてください！
-            const gasUrl = 'https://script.google.com/macros/s/AKfycbyG_zASneceAHfO8n3en4w5-JH94hHJfx8mQAZzdxXqRjYZAaVtfvkdz11kbK0MYP9y/exec';
 
             fetch(gasUrl, {
                 method: 'POST',
@@ -210,7 +224,7 @@
             .then(async (response) => {
                 let res = await response.json();
                 if (res.status === "success") {
-                    alert("Thank you! Your message has been sent successfully.");
+                    alert("感謝のメッセージが正常に送信されました。");
                     form.reset();
                     
                     const formContainer = document.getElementById('message-form-container');
@@ -218,25 +232,25 @@
                     
                     const actionBtn = document.getElementById('action-btn');
                     if (actionBtn) {
-                        actionBtn.innerText = "💌 Message Sent";
+                        actionBtn.innerText = "💌 送信済み";
                         actionBtn.style.display = 'inline-block';
                         actionBtn.disabled = true;
                         actionBtn.style.backgroundColor = "#ccc";
                         actionBtn.style.boxShadow = "none";
                     }
                 } else {
-                    alert("Transmission failed: " + (res.message || "Unknown error"));
+                    alert("送信に失敗しました: " + (res.message || "原因不明のエラー"));
                     if (submitBtn) {
-                        submitBtn.innerText = "送信";
+                        submitBtn.innerText = "送信する";
                         submitBtn.disabled = false;
                     }
                 }
             })
             .catch((error) => {
-                alert("Transmission failed. Please try again later.");
+                alert("通信エラーが発生しました。時間を置いて再度お試しください。");
                 console.error(error);
                 if (submitBtn) {
-                    submitBtn.innerText = "送信";
+                    submitBtn.innerText = "送信する";
                     submitBtn.disabled = false;
                 }
             });

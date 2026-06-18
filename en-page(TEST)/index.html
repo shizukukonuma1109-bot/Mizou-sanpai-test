@@ -25,7 +25,6 @@
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            /* Fixed width for consistent line breaks across devices */
             max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
@@ -35,7 +34,7 @@
         
         .lang-block {
             margin-bottom: 0;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
         .lang-english {
@@ -45,7 +44,7 @@
             word-break: break-word;
         }
 
-        /* Action Button Styles */
+        /* Action Button Style */
         #action-btn {
             margin-top: 25px;
             padding: 12px 24px;
@@ -65,7 +64,7 @@
             transform: scale(0.95);
         }
 
-        /* Form Styles */
+        /* Form Style */
         #message-form-container {
             display: none;
             margin-top: 20px;
@@ -76,7 +75,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Input & Textarea Styles */
+        /* Input Style */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
@@ -119,11 +118,11 @@
 
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="Division (Optional)">
-                <input type="text" name="kei" placeholder="Lineage (Optional)">
+                <input type="text" name="bukai" placeholder="Department / Section (Optional)">
+                <input type="text" name="kei" placeholder="Group / Unit (Optional)">
                 <input type="text" name="name" placeholder="Name (Optional)">
                 
-                <textarea name="message" rows="4" placeholder="Enter your message here..." required></textarea>
+                <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
                 <br>
                 <button type="submit" id="submit-btn">Submit</button>
             </form>
@@ -131,36 +130,57 @@
     </div>
 
     <script>
+        // 💡 23 Inspirational Messages (English Version)
+        // Feel free to modify the text to match your original English manuscript.
         const quotesData = [
-            { en: "The buddhas are always with us,<br>right by our side.<br>Close your eyes and remember this whenever you are feeling low or facing difficulties in your life.", image: "bg1.jpg" },
-            { en: "I come to understand the Buddha's heart through your warmth. Thank you.", image: "bg2.jpg" },
-            { en: "Communication is very important.<br>“Good morning.” “Hello!”<br>Let’s begin with greetings.", image: "bg3.jpg" },
-            { en: "Striving to do your best is a wonderful thing, but you may wear yourself out if you try too hard at the beginning.<br>Set achievable goals and move forward little by little.", image: "bg4.jpg" },
-            { en: "Buddha lies in everyone's heart.<br>We all want to be kind, helpful, and truthful in some way. Whenever we feel like this, we discover a buddha in our own hearts.", image: "bg5.jpg" },
-            { en: "Those who can reflect on themselves have pure hearts.", image: "bg6.jpg" },
-            { en: "It's nice to look good,<br>but that alone does not define beauty.<br>With sincere words and conduct,<br>anyone can be truly beautiful.", image: "bg7.jpg" },
-            { en: "Cheerful, truthful, kind, warm —<br>each of us has<br>something special to offer.", image: "bg8.jpg" },
-            { en: "Having the strength to try your best or the wish to do better in itself brings happiness.", image: "bg9.jpg" },
-            { en: "Sometimes we all get tensed up.<br>When I feel that way, I take a deep breath and then I'm ready to try my best again.", image: "bg10.jpg" },
-            { en: "The buddhas guide you to encounter people at certain times and<br>places for a reason.", image: "bg11.jpg" },
-            { en: "Your heart shines each time you feel gratitude.", image: "bg12.jpg" },
-            { en: "Never think, \"I have nothing to offer!\"<br>The buddhas and many others count on you.<br>Look forward and think positively. Just do your best, and you'll have no regrets.", image: "bg13.jpg" },
-            { en: "Can we only sympathize with those whose experiences match our own?<br>I think we can connect with others as long as we sincerely try to understand them and soothe their pain.", image: "bg14.jpg" },
-            { en: "Being considerate means empathizing with others.", image: "bg15.jpg" },
-            { en: "When something happens to bring me down, I tell myself to snap out of it, saying “There’s no use crying over spilled milk! I’ll be more careful and<br>do better next time.”", image: "bg16.jpg" },
-            { en: "It’s important to consider your own needs, but more important to think of others.<br>The buddhas will look after you when you try to be kind, warm, supportive, and devoted to others.", image: "bg17.jpg" },
-            { en: "Never forget that many people have helped and loved you since the day you were born.<br>Your life is important to your family, your friends, and me.", image: "bg18.jpg" },
+            { en: "Always together. Always by your side.<br>That is Buddha. When you feel down, sad,<br>or lose confidence,<br>close your eyes and remember.<br>You are always with Buddha.", image: "bg1.jpg" },
+            { en: "I came to know the \"heart\" of Buddha through your kindness. Thank you.", image: "bg2.jpg" },
+            { en: "Communication is very important, whether through words or gestures.<br>\"Good morning,\" \"Hello\"<br><br>Let's start with a greeting.", image: "bg3.jpg" },
+            { en: "It's wonderful that you felt motivated to do your best.<br>However, if you push yourself too hard suddenly,<br>you might get tired.<br>Don't overdo it, take it step by step.<br>Why not start with what you can do?", image: "bg4.jpg" },
+            { en: "Buddha resides within everyone's<br>heart.<br>To be kind, to help, to be honest—<br>you have a little bit of that heart, don't you?<br>That \"little bit\" is a small Buddha.", image: "bg5.jpg" },
+            { en: "A person who can reflect on themselves<br>has a beautiful heart.", image: "bg6.jpg" },
+            { en: "Making your appearance neat and beautiful is<br>very good. In addition, if you add heartfelt<br>words and attitude,<br>you can become even more beautiful.", image: "bg7.jpg" },
+            { en: "Cheerful, truthful, kind, warm—\"That person is so nice,\"<br>someone might say.<br>You surely have such good qualities too,<br>each of us has something special to offer.", image: "bg8.jpg" },
+            { en: "Being able to desire to make an effort and improve yourself—<br>that itself is \"happiness.\"", image: "bg9.jpg" },
+            { en: "Sometimes you just want to take a deep breath and say<br>\"Phew,\" don't you?<br>I do too. At times like that,<br>take a deep breath, fill your body with oxygen...<br><br>\"Now, let's do our best again.\"", image: "bg10.jpg" },
+            { en: "A person you spend time with at a certain time and place<br>might be an important person Buddha brought into your life.", image: "bg11.jpg" },
+            { en: "Every time you feel grateful,<br>your heart shines brighter.", image: "bg12.jpg" },
+            { en: "Don't step back thinking,<br>\"I'm no good...\"<br>Buddha expects much from you just as you are. There is someone who needs you<br>just as you are.<br>Be forward-looking and think positively.<br><br>If you do your best, there is no need for regret.", image: "bg13.jpg" },
+            { en: "Do we have to go through the same experience<br>to understand someone's feelings?<br>I don't think so.<br>As long as there is sincerity to ease suffering or sadness,<br>and to share it even a little, we can connect.", image: "bg14.jpg" },
+            { en: "Compassion means<br>putting yourself in another person's heart.", image: "bg15.jpg" },
+            { en: "I get depressed too.<br>But at times like that, I tell myself<br>to switch my mindset:<br>\"It can't be helped, it's already over.<br>Next time I'll be careful!\"", image: "bg16.jpg" },
+            { en: "Thinking about yourself is important.<br>Thinking about others as your own matter<br>is even more important.<br>A person who is kind, warm, supportive,<br>and dedicated to others is cherished by Buddha.", image: "bg17.jpg" },
+            { en: "Remember how many people have helped you and given you love<br>since you were born until now. Everyone's life is precious<br>to their family, their friends, and to me.", image: "bg18.jpg" },
             { en: "No one is perfect.", image: "bg19.jpg" },
-            { en: "Treat all things as if they are alive and worthy of care. The more you cherish everything around you,<br>the more blessed your life will be.<br>Nature and the self, objects and people<br> — all are one.", image: "bg20.jpg" },
-            { en: "We all find it difficult to communicate at times. Whenever this happens to you, listen carefully to the other person before giving your opinion.<br>It will help to bring you closer together.", image: "bg21.jpg" },
-            { en: "Everyone loves to be greeted with a smile.<br>Giving someone a warm smile is also an important aspect of Buddhist training. It is a form of dana paramita.", image: "bg22.jpg" },
-            { en: "When you try to do something good,<br>you may need to make a conscious effort<br>to follow through at first.<br> Eventually,it will become a natural<br>partof your behavior.<br>Then you can discover<br>the beautiful person within you.", image: "bg23.jpg" }
+            { en: "Cherish things. Everything has life.<br>If you cherish them, you will be protected by the things you cherished.<br>Nature and yourself, tools and people—<br>all are one.", image: "bg20.jpg" },
+            { en: "Do you ever worry about communication with others?<br>At times like that, try listening carefully to what the other person has to say.<br>Express your own thoughts after that.<br>By doing so, you can shorten the distance between you.", image: "bg21.jpg" },
+            { en: "Welcoming others with a gentle, warm smile is called<br>\"Waganse\" (offering of a smiling face).<br>You would be happy to be welcomed with a smile, wouldn't you?<br>It is one of the important practices in Buddhism.", image: "bg22.jpg" },
+            { en: "Doing good deeds may require conscious effort at first<br>to keep it going. As you keep telling yourself over and over,<br>doing good will naturally become a \"habit.\"<br>At that moment, you will find a wonderful version of yourself.", image: "bg23.jpg" }
         ];
+
+        // 💡 [Important] Paste your common Google Apps Script (GAS) Web app URL here!
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbyw8pAvrfggC3fIJoLLemGFfadZd_Qr295XA6C-zqzCtnCLELzZAwOnnUcA08itDRV2/exec';
+
         window.onload = function() {
             try {
+                // --- [Daily Duplicate Cut] Auto Count Access Log ---
+                const today = new Date().toISOString().split('T')[0];
+                const lastVisitDate = localStorage.getItem('lastVisitDate_EN');
+                
+                // Notify GAS only if this is the first access today for English page
+                if (lastVisitDate !== today) {
+                    fetch(gasUrl, {
+                        method: 'POST',
+                        body: JSON.stringify({ type: "access", lang: "EN" }) // English Stamp
+                    });
+                    localStorage.setItem('lastVisitDate_EN', today);
+                }
+                // -----------------------------------------------------------
+
                 const randomIndex = Math.floor(Math.random() * quotesData.length);
                 const selectedSet = quotesData[randomIndex];
                 
+                // Assumes the image folder (Main) is one level up (../)
                 document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
                 
                 let htmlContent = "";
@@ -168,7 +188,7 @@
                 
                 document.getElementById("content-body").innerHTML = htmlContent;
             } catch (error) {
-                alert("Loading Error");
+                alert("An error occurred while loading.");
                 console.error("Error details:", error);
             }
         };
@@ -191,13 +211,10 @@
             }
 
             const formData = new FormData(form);
-            formData.append("lang", "EN");
+            formData.append("lang", "EN"); // Records "EN" in the spreadsheet
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
-
-            // Paste your Google Apps Script URL below
-            const gasUrl = 'https://script.google.com/macros/s/AKfycbyG_zASneceAHfO8n3en4w5-JH94hHJfx8mQAZzdxXqRjYZAaVtfvkdz11kbK0MYP9y/exec';
 
             fetch(gasUrl, {
                 method: 'POST',
@@ -221,7 +238,7 @@
                         actionBtn.style.boxShadow = "none";
                     }
                 } else {
-                    alert("Submission failed: " + (res.message || "Unknown error"));
+                    alert("Failed to send: " + (res.message || "Unknown error"));
                     if (submitBtn) {
                         submitBtn.innerText = "Submit";
                         submitBtn.disabled = false;
@@ -229,7 +246,7 @@
                 }
             })
             .catch((error) => {
-                alert("Submission failed. Please try again later.");
+                alert("A connection error occurred. Please try again later.");
                 console.error(error);
                 if (submitBtn) {
                     submitBtn.innerText = "Submit";

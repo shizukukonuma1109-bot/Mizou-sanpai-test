@@ -183,7 +183,7 @@
             font-size: 15px;
             box-sizing: border-box;
             margin-top: 4px;
-            display: none; /* 初期状態は非表示 */
+            display: none; 
         }
         
         .modal-btn-group {
@@ -274,24 +274,13 @@
             { en: "Doing good deeds may require conscious effort at first<br>to keep it going. As you keep telling yourself over and over,<br>doing good will naturally become a \"habit.\"<br>At that moment, you will find a wonderful version of yourself.", image: "bg23.jpg" }
         ];
 
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbyMtCHlqvo24uekDpbLe0h4rfVuRm5VP4VeYYKM2DgxVaRJCuNSYhGKsBQu7XnBsJBT/exec';
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbwCU-ODL32b5AwNRenciBDaFn9slxKJ1LF70KbVUMOebQ9wYS3xEJLe1ck1843L4iT7/exec';
 
         let selectedMemberStatus = "Unknown"; 
-        let cachedDeviceID = "";
-
-        // 📱 デバイスを識別するためのユニークIDを生成・取得する関数
-        function getOrCreateDeviceID() {
-            let id = localStorage.getItem('artwork_device_id');
-            if (!id) {
-                id = 'dev_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                localStorage.setItem('artwork_device_id', id);
-            }
-            return id;
-        }
+        let selectedCountry = "Thailand"; // 選択された国を保持する変数
 
         window.onload = function() {
             try {
-                cachedDeviceID = getOrCreateDeviceID();
                 document.getElementById("statusModal").style.display = "flex";
 
                 const randomIndex = Math.floor(Math.random() * quotesData.length);
@@ -306,7 +295,6 @@
             }
         };
 
-        // 🌍 「Other」が選ばれたときだけテキスト入力欄を出す関数
         function toggleCountryInput(show) {
             const inputField = document.getElementById("customCountry");
             inputField.style.display = show ? "block" : "none";
@@ -316,24 +304,22 @@
         function selectStatus(statusValue) {
             selectedMemberStatus = statusValue; 
             
-            // 🌍 国籍データの取得判断
+            // 国籍データの確定
             let finalCountry = "Thailand";
             const radioVal = document.querySelector('input[name="countryOpt"]:checked').value;
             if (radioVal === "Other") {
                 const customVal = document.getElementById("customCountry").value.trim();
                 finalCountry = customVal ? customVal : "Other";
             }
+            selectedCountry = finalCountry; // メッセージ送信時にも使い回せるよう記憶
 
             document.getElementById("statusModal").style.display = "none";
             
-            // GASへアクセスデータを送信（識別IDと国名も同封）
             fetch(gasUrl, {
                 method: 'POST',
                 body: JSON.stringify({ 
                     type: "access", 
-                    lang: "EN", 
                     status: statusValue, 
-                    deviceId: cachedDeviceID,
                     country: finalCountry
                 })
             })
@@ -352,10 +338,9 @@
             if (submitBtn) { submitBtn.innerText = "Sending..."; submitBtn.disabled = true; }
 
             const formData = new FormData(form);
-            formData.append("type", "message"); // メッセージ送信であることを明示
-            formData.append("lang", "EN"); 
+            formData.append("type", "message"); 
             formData.append("status", selectedMemberStatus); 
-            formData.append("deviceId", cachedDeviceID); // メッセージ側にも一応IDを紐付け
+            formData.append("country", selectedCountry); // ✅ メッセージ送信時にも国籍を付与！
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);

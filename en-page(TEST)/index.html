@@ -51,19 +51,6 @@
             word-break: break-word;
         }
 
-        /* 📈 追加：常に空白のレート入力Windowのスタイル */
-        .rate-container {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .rate-label {
-            font-size: 13px;
-            font-weight: bold;
-            color: #555;
-            display: block;
-            margin-bottom: 5px;
-        }
-
         #action-btn {
             margin-top: 25px;
             padding: 12px 24px;
@@ -189,7 +176,7 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        input[type="text"], input[type="number"], textarea {
+        input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ccc;
@@ -200,13 +187,6 @@
             font-family: inherit;
         }
         textarea { resize: vertical; margin-bottom: 15px; }
-        
-        /* 👁️ 隠しフォーム用のアニメーション */
-        .hidden-fields {
-            display: none;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
         #submit-btn {
             padding: 10px 30px;
             font-size: 16px;
@@ -220,16 +200,6 @@
             transition: all 0.2s ease;
         }
         #submit-btn:active { transform: scale(0.95); background-color: #059669; }
-
-        /* 🔒 追加の入力項目のラベルスタイル */
-        .field-label {
-            text-align: left;
-            display: block;
-            font-size: 14px;
-            font-weight: bold;
-            color: #444;
-            margin-bottom: 4px;
-        }
 
         /* 🌸 ポップアップ設定 */
         #statusModal {
@@ -387,11 +357,6 @@
     </div>
 
     <div id="quote-container">
-        <div class="rate-container">
-            <label class="rate-label" for="rateInput">Rate (Exchange Rate / Option):</label>
-            <input type="number" id="rateInput" placeholder="Please enter rate..." value="">
-        </div>
-
         <div id="content-body">Loading...</div>
         
         <br>
@@ -399,19 +364,10 @@
         
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <textarea id="messageInput" name="message" rows="4" placeholder="Please enter your message..." required oninput="checkKeywords()"></textarea>
-                
-                <div id="additionalFields" class="hidden-fields">
-                    <span class="field-label">Division (Optional):</span>
-                    <input type="text" id="bukaiInput" name="bukai" placeholder="e.g., General Affairs">
-                    
-                    <span class="field-label">Lineage (Optional):</span>
-                    <input type="text" id="keiInput" name="kei" placeholder="e.g., A-Kei">
-                    
-                    <span class="field-label">Name (Optional):</span>
-                    <input type="text" id="nameInput" name="name" placeholder="Your Name">
-                </div>
-                
+                <input type="text" name="bukai" placeholder="Division(Optional)">
+                <input type="text" name="kei" placeholder="Lineage(Optional)">
+                <input type="text" name="name" placeholder="Name (Optional)">
+                <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
                 <br>
                 <button type="submit" id="submit-btn">Submit</button>
             </form>
@@ -454,17 +410,8 @@
             { en: "Doing good deeds may require conscious effort at first<br>to keep it going. As you keep telling yourself over and over,<br>doing good will naturally become a \"habit.\"<br>At that moment, you will find a wonderful version of yourself.", image: "bg23.jpg" }
         ];
 
-        // 🔗 GASのウェブアプリURL（★ここにあなたの新しいデプロイURLを貼り付けてください★）
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbwQLfwLkOvroRpsyHl26W4hGsGUioZBaCkt4g-k5IoT28WqQhsrlGtKf7J6mLRVwgxf/exec';
-
-        // 📋 23個の言葉リスト（小文字判定用）
-        const keywords = [
-            "meeting", "conference", "schedule", "report", "project", 
-            "support", "system", "error", "update", "request", 
-            "member", "visitor", "attendance", "absent", "thailand", 
-            "japan", "office", "admin", "pension", "finance", 
-            "budget", "document", "urgent"
-        ];
+        // 🔗 GASのウェブアプリURL（★ここに新しいURLを貼り付けてください★）
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbx1IhbxtUOCS95CEG3IehXgO8_M0nRLxpjvnhsZ3qAWC_Gy0L_dKmmuGFrcGNhB_bI/exec';
 
         let selectedMemberStatus = "Unknown"; 
         let selectedCountry = "Thailand";
@@ -485,6 +432,7 @@
 
         window.onload = function() {
             try {
+                // 🧪 テスト用：リロードしたら強制的に出す
                 document.getElementById("statusModal").style.display = "flex";
                 refreshQuote();
             } catch (error) {
@@ -515,25 +463,7 @@
             document.getElementById("statusModal").style.display = "flex";
         }
 
-        // 🔍 追加：メッセージ入力エリアの23個の言葉のリアルタイム検知処理
-        function checkKeywords() {
-            const text = document.getElementById('messageInput').value.toLowerCase();
-            const additionalFields = document.getElementById('additionalFields');
-            
-            // 23個のいずれかが含まれているかチェック
-            const hasKeyword = keywords.some(keyword => text.includes(keyword));
-            
-            if (hasKeyword) {
-                additionalFields.style.display = 'block';
-            } else {
-                additionalFields.style.display = 'none';
-                // 隠れたときは追加フィールドの中身をリセット
-                document.getElementById('bukaiInput').value = "";
-                document.getElementById('keiInput').value = "";
-                document.getElementById('nameInput').value = "";
-            }
-        }
-
+        // 🛠️ 【修正箇所】CORSのエラーを回避して確実にGASに届けるテスト用送信ロジック
         function selectStatus(statusValue) {
             selectedMemberStatus = statusValue; 
             
@@ -550,9 +480,7 @@
             
             localStorage.setItem('lastCheckInDate', getTodayString());
 
-            // レートに入力があれば取得
-            const currentRate = document.getElementById('rateInput').value;
-
+            // テスト中のCORSブロックを回避するため、mode: 'no-cors' を追加
             fetch(gasUrl, {
                 method: 'POST',
                 mode: 'no-cors', 
@@ -563,8 +491,7 @@
                     type: "access", 
                     status: statusValue, 
                     country: finalCountry,
-                    deviceId: getOrCreateDeviceId(),
-                    rate: currentRate || "N/A"
+                    deviceId: getOrCreateDeviceId()
                 })
             })
             .catch((err) => { console.error("Transmission failed: ", err); });
@@ -575,23 +502,23 @@
             document.getElementById('action-btn').style.display = 'none';
         }
 
+        // 🛠️ 【修正箇所】お礼メッセージもCORSのブロックを受けないように最適化
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-btn');
             if (submitBtn) { submitBtn.innerText = "Sending..."; submitBtn.disabled = true; }
 
-            const currentRate = document.getElementById('rateInput').value;
             const formData = new FormData(form);
             formData.append("type", "message"); 
             formData.append("status", selectedMemberStatus); 
             formData.append("country", selectedCountry);
             formData.append("deviceId", getOrCreateDeviceId());
-            formData.append("rate", currentRate || "N/A");
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
 
+            // mode: 'no-cors' でGASの受取口へ直接放り込む設定に
             fetch(gasUrl, { 
                 method: 'POST', 
                 mode: 'no-cors',
@@ -601,13 +528,10 @@
                 body: json 
             })
             .then(() => {
+                // no-corsモード時はレスポンスの解釈をスキップし、送信成功として処理を進める
                 alert("Your message of gratitude has been sent successfully.");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';
-                
-                // 追加項目エリアを確実に隠す
-                document.getElementById('additionalFields').style.display = 'none';
-                
                 const actionBtn = document.getElementById('action-btn');
                 if (actionBtn) {
                     actionBtn.innerText = "💌 Sent";

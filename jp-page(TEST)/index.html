@@ -3,49 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artwork Message</title>
+    <title>み像参拝</title>
     <style>
+        /* 🌍 全体を画面の「縦・横」の完全な中央に配置するためのベース設定 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: sans-serif;
-            margin: 0;
-            padding: 15px;
+            align-items: center; 
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             text-align: center;
-            
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             transition: background-image 0.5s ease;
+            box-sizing: border-box;
+            padding: 20px;
         }
+
+        /* 📜 お言葉のBOX（画面中央に綺麗に収まるメインコンテナ） */
         #quote-container {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85); 
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            /* スマホ等での改行位置を一定にするための固定幅 */
             max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
-            max-height: 90vh;
+            max-height: 85vh; 
             overflow-y: auto;
         }
-        
+
         .lang-block {
             margin-bottom: 0;
-            line-height: 1.8;
+            line-height: 1.9; 
         }
 
         .lang-japanese {
             font-size: 16px;
             font-weight: bold;
-            color: #333;
-            word-break: break-word;
+            color: #2c3e50;
+            word-break: break-all;
         }
 
-        /* アクションボタンのスタイル */
         #action-btn {
             margin-top: 25px;
             padding: 12px 24px;
@@ -61,11 +66,8 @@
             width: 80%;
             max-width: 250px;
         }
-        #action-btn:active {
-            transform: scale(0.95);
-        }
+        #action-btn:active { transform: scale(0.95); }
 
-        /* フォームのスタイル */
         #message-form-container {
             display: none;
             margin-top: 20px;
@@ -75,8 +77,6 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* 入力欄のスタイル */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
@@ -87,11 +87,8 @@
             margin-bottom: 12px;
             font-family: inherit;
         }
-        textarea {
-            resize: vertical;
-            margin-bottom: 15px;
-        }
-
+        textarea { resize: vertical; margin-bottom: 15px; }
+        
         #submit-btn {
             padding: 10px 30px;
             font-size: 16px;
@@ -104,26 +101,23 @@
             box-shadow: 0 4px 10px rgba(16,185,129,0.3);
             transition: all 0.2s ease;
         }
-        #submit-btn:active {
-            transform: scale(0.95);
-            background-color: #059669;
-        }
+        #submit-btn:active { transform: scale(0.95); background-color: #059669; }
     </style>
 </head>
 <body>
 
     <div id="quote-container">
-        <div id="content-body">読み込み中...</div>
+        <div id="content-body">お言葉を読み込み中...</div>
         
-        <button id="action-btn" onclick="toggleForm()">💌 感謝のメッセージ</button>
-
+        <br>
+        <button id="action-btn" onclick="toggleForm()">💌 感謝の言葉を届ける</button>
+        
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="部会（任意）">
-                <input type="text" name="kei" placeholder="経（任意）">
-                <input type="text" name="name" placeholder="お名前（任意）">
-                
-                <textarea name="message" rows="4" placeholder="メッセージを入力してください..." required></textarea>
+                <input type="text" name="bukai" placeholder="部会 (任意)">
+                <input type="text" name="kei" placeholder="経 (任意)">
+                <input type="text" name="name" placeholder="名前 (任意)">
+                <textarea name="message" rows="4" placeholder="感謝のメッセージを入力してください..." required></textarea>
                 <br>
                 <button type="submit" id="submit-btn">送信する</button>
             </form>
@@ -131,7 +125,7 @@
     </div>
 
     <script>
-        // 💡 ご提示いただいた23個の日本語名言データ
+        // 🌸 継主様の尊いお言葉データ（全23個）
         const quotesData = [
             { jp: "いつも一緒。いつもそばにいてくださる。<br>それが、みほとけ。つらく、せつなく、<br>自信をなくしかけたとき、<br>眼を閉じて思い出してみてください。<br> 自分は、みほとけとともにある――と。", image: "bg1.jpg" },
             { jp: "あなたのやさしさにみほとけの“こころ”を知りました。ありがとう。", image: "bg2.jpg" },
@@ -144,7 +138,7 @@
             { jp: "努力しよう、よくしたいと思えること。<br>それも“しあわせ”。", image: "bg9.jpg" },
             { jp: "ときには「はーっ」と<br>息をつきたくなること、ありますよね。<br>私もあります。そんなときは、<br>深呼吸して 酸素をいっぱい<br>体の中に入れて…。 <br><br>「さあ、またがんばりましょう」", image: "bg10.jpg" },
             { jp: "ある時、ある場所で、一緒にすごすひとは<br>みほとけがめぐりあわせてくれた<br>大事なひとかもしれません。", image: "bg11.jpg" },
-            { jp: "「ありがたいな」と思うたび、<br>心はかがやいていきます。", image: "bg12.jpg" },
+            { jp: "「ありがたいな」思うたび、<br>心はかがやいていきます。", image: "bg12.jpg" },
             { jp: "「こんな自分はだめだ･･･」と<br>ひっこまないで。<br>こんな自分を、みほとけは期待しています。こんな自分を、必要としている<br>ひとがいるのです。<br>前向きに、プラス思考で。<br><br> 力をだせたら、後悔はいりません。", image: "bg13.jpg" },
             { jp: "おなじ経験をしなければ<br>ひとの気持ちにはなれないのでしょうか。<br>私は、そうは思いません。<br>苦しみや悲しみをいやしたい<br>少しでもわかちあいたい<br>その誠意があればつながります。", image: "bg14.jpg" },
             { jp: "思いやりとは、<br>そのひとの心になっていくこと。", image: "bg15.jpg" },
@@ -152,110 +146,114 @@
             { jp: "自分のことをよく考えるのは大事。<br>ひとのことを自分ごととして<br>考えるのはもっと大事。<br>やさしく、あたたかく、ささえ、<br>つくしていくひとは<br>みほとけから大事にされます。", image: "bg17.jpg" },
             { jp: "生まれてから今まで、どれだけ多くのひとが<br>あなたを助け愛情をかけてくれたか、<br>忘れないで。 みんな、家族にとって、<br>仲間にとって、私にとって、大切な命です。", image: "bg18.jpg" },
             { jp: "ひとは誰も、完ぺきではありません。", image: "bg19.jpg" },
-            { jp: "ものを大切にしていくこと。<br>すべてに命があります。<br>大切にすれば、大切したものに守られます。<br>自然と自分、道具とひと、<br>みな一体です。", image: "bg20.jpg" },
+            { jp: "ものを大切にしてしていくこと。<br>すべてに命があります。<br>大切にすれば、大切したものに守られます。<br>自然と自分、道具とひと、<br>みな一体です。", image: "bg20.jpg" },
             { jp: "ひととのコミュニケーションで悩むこと、<br>ありませんか。そんなときは相手の<br>言うことに耳をかたむけてみましょう。<br>自分の考えを述べるのはそのあとで。<br>そうすれば距離を縮めることができます。", image: "bg21.jpg" },
             { jp: "なごやかな、あたたかいほほえみで接する。<br>これを、和顔施（わがんせ）といいます。<br>みなさんも、笑顔で迎えられたら、<br>うれしいでしょう？<br>仏教の重要な修行のひとつです。", image: "bg22.jpg" },
             { jp: "よいことをするにもはじめは“意識”して<br>おこなわないと続かないかもしれません。<br>何度も自分に言いきかせていくうちに<br>自然とよいことが“習慣”になります。<br>そのとき、ステキな自分が見つかりますよ。", image: "bg23.jpg" }
         ];
 
-        // 💡【重要】ここに新しくデプロイし直した共通のWeb app URLを貼り付けてください！
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbyw8pAvrfggC3fIJoLLemGFfadZd_Qr295XA6C-zqzCtnCLELzZAwOnnUcA08itDRV2/exec';
+        // 🔗 GASのウェブアプリURL（★ご自身のURLに差し替えてください★）
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbyhccbOTpxAPHJ1MZb8PygjcPAYhDoCjRqxIjXPEPVViu63LfvKSwXX-cJzg_9vtPKl/exec';
 
+        function getOrCreateDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = 'dev_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('deviceId', id);
+            }
+            return id;
+        }
+
+        // 🎬 ページ読み込み時の処理（自動実行）
         window.onload = function() {
             try {
-                // --- 【同日重複カット】アクセスログの自動カウント ---
-                const today = new Date().toISOString().split('T')[0];
-                const lastVisitDate = localStorage.getItem('lastVisitDate');
+                // 1. お言葉をランダム表示
+                refreshQuote();
                 
-                // 今日まだ一度もアクセスしていない場合のみGASに通知
-                if (lastVisitDate !== today) {
-                    fetch(gasUrl, {
-                        method: 'POST',
-                        body: JSON.stringify({ type: "access", lang: "JP" }) // 日本語版スタンプ
-                    });
-                    localStorage.setItem('lastVisitDate', today);
-                }
-                // -----------------------------------------------------------
-
-                const randomIndex = Math.floor(Math.random() * quotesData.length);
-                const selectedSet = quotesData[randomIndex];
-                
-                // 画像フォルダ（Main）は1つ上の階層にある前提（../）
-                document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
-                
-                let htmlContent = "";
-                // 💡 データのキーを「jp」に変更したため、ここも一致させています
-                if(selectedSet.jp) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jp}</div>`;
-                
-                document.getElementById("content-body").innerHTML = htmlContent;
+                // 2. 開いた瞬間に、裏側で参拝ログ（access）を自動送信
+                sendAutoAccessLog();
             } catch (error) {
-                alert("読み込みエラーが発生しました。");
-                console.error("Error details:", error);
+                console.error("初期化エラー:", error);
             }
         };
 
-        function toggleForm() {
-            const formContainer = document.getElementById('message-form-container');
-            const actionBtn = document.getElementById('action-btn');
-            formContainer.style.display = 'block';
-            actionBtn.style.display = 'none';
+        // 🎲 お言葉をランダムに抽選して表示する関数
+        function refreshQuote() {
+            if (quotesData.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * quotesData.length);
+            const selectedSet = quotesData[randomIndex];
+            
+            // 背景画像変更
+            document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
+            
+            // お言葉表示
+            let htmlContent = "";
+            if(selectedSet.jp) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jp}</div>`;
+            document.getElementById("content-body").innerHTML = htmlContent;
         }
 
+        // 📡 自動で参拝記録（アクセス）を送信する関数
+        function sendAutoAccessLog() {
+            fetch(gasUrl, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    type: "access", 
+                    status: "Auto",   // 選択廃止のため一律固定値
+                    country: "Auto",  // 選択廃止のため一律固定値
+                    deviceId: getOrCreateDeviceId()
+                })
+            })
+            .catch((err) => { console.error("アクセスデータ自動送信失敗:", err); });
+        }
+
+        // 💌 感謝フォームの表示切り替え
+        function toggleForm() {
+            document.getElementById('message-form-container').style.display = 'block';
+            document.getElementById('action-btn').style.display = 'none';
+        }
+
+        // 📤 感謝のメッセージ送信処理
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) {
-                submitBtn.innerText = "送信中...";
-                submitBtn.disabled = true;
-            }
+            if (submitBtn) { submitBtn.innerText = "送信中..."; submitBtn.disabled = true; }
 
             const formData = new FormData(form);
-            formData.append("lang", "JP"); // スプレッドシートに「JP」と記録
+            formData.append("type", "message"); 
+            formData.append("status", "Auto"); 
+            formData.append("country", "Auto");
+            formData.append("deviceId", getOrCreateDeviceId());
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
 
-            fetch(gasUrl, {
-                method: 'POST',
-                body: json
+            fetch(gasUrl, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: json 
             })
-            .then(async (response) => {
-                let res = await response.json();
-                if (res.status === "success") {
-                    alert("感謝のメッセージが正常に送信されました。");
-                    form.reset();
-                    
-                    const formContainer = document.getElementById('message-form-container');
-                    if (formContainer) formContainer.style.display = 'none';
-                    
-                    const actionBtn = document.getElementById('action-btn');
-                    if (actionBtn) {
-                        actionBtn.innerText = "💌 送信済み";
-                        actionBtn.style.display = 'inline-block';
-                        actionBtn.disabled = true;
-                        actionBtn.style.backgroundColor = "#ccc";
-                        actionBtn.style.boxShadow = "none";
-                    }
-                } else {
-                    alert("送信に失敗しました: " + (res.message || "原因不明のエラー"));
-                    if (submitBtn) {
-                        submitBtn.innerText = "送信する";
-                        submitBtn.disabled = false;
-                    }
+            .then(() => {
+                alert("感謝の言葉が事務局へ送信されました。ありがとうございました。");
+                form.reset();
+                document.getElementById('message-form-container').style.display = 'none';
+                const actionBtn = document.getElementById('action-btn');
+                if (actionBtn) {
+                    actionBtn.innerText = "💌 送信完了";
+                    actionBtn.style.display = 'inline-block';
+                    actionBtn.disabled = true;
+                    actionBtn.style.backgroundColor = "#ccc";
+                    actionBtn.style.boxShadow = "none";
                 }
             })
             .catch((error) => {
-                alert("通信エラーが発生しました。時間を置いて再度お試しください。");
-                console.error(error);
-                if (submitBtn) {
-                    submitBtn.innerText = "送信する";
-                    submitBtn.disabled = false;
-                }
+                alert("通信エラーが発生しました。電波の良い場所でもう一度お試しください。");
+                if (submitBtn) { submitBtn.innerText = "送信する"; submitBtn.disabled = false; }
             });
         });
     </script>
-
 </body>
 </html>

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artwork Message (Test Version)</title>
+    <title>Artwork Message</title>
     <style>
-        /* 🌍 全体を画面の「縦・横」の完全な中央に配置するためのベース設定 */
+        /* 🌍 Centers the main box perfectly horizontally and vertically */
         html, body {
             height: 100%;
             margin: 0;
@@ -26,16 +26,16 @@
             padding: 20px;
         }
 
-        /* 📜 お言葉のBOX（画面中央に綺麗に収まるメインコンテナ） */
+        /* 📜 Main container for the quotes */
         #quote-container {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
-            max-height: 75vh; 
+            max-height: 85vh; 
             overflow-y: auto;
         }
 
@@ -68,103 +68,6 @@
         }
         #action-btn:active { transform: scale(0.95); }
 
-        /* 🔄 代理チェックインボタン（画面最下部に横1行固定） */
-        .proxy-container {
-            position: fixed;
-            bottom: 25px;       
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 340px;   
-            text-align: center;
-            z-index: 99;        
-        }
-
-        #proxy-btn {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 15px;
-            font-weight: bold;
-            background-color: white;
-            color: #27ae60;      
-            border: 2.5px solid #27ae60;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            display: flex;       
-            align-items: center;
-            justify-content: center;
-            gap: 10px;           
-        }
-        #proxy-btn:active { transform: scale(0.95); }
-
-        /* 🎨 CSSで描く高精細な2方向循環矢印 */
-        .custom-refresh-icon {
-            width: 22px;
-            height: 22px;
-            position: relative;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .custom-refresh-icon::before {
-            content: "";
-            position: absolute;
-            top: 1px;
-            left: 1px;
-            width: 14px;
-            height: 14px;
-            border: 3px solid #4ca679;
-            border-bottom-color: transparent;
-            border-left-color: transparent;
-            border-radius: 50%;
-            transform: rotate(-35deg);
-        }
-        .custom-refresh-icon::after {
-            content: "";
-            position: absolute;
-            top: 5px;
-            right: -1px;
-            border: 4px solid transparent;
-            border-top-color: #4ca679;
-            border-left-color: #4ca679;
-            transform: rotate(10deg);
-        }
-
-        .sub-arrow-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform: rotate(180deg); 
-        }
-        .sub-arrow-layer::before {
-            content: "";
-            position: absolute;
-            top: 1px;
-            left: 1px;
-            width: 14px;
-            height: 14px;
-            border: 3px solid #63e2b2;
-            border-bottom-color: transparent;
-            border-left-color: transparent;
-            border-radius: 50%;
-            transform: rotate(-35deg);
-        }
-        .sub-arrow-layer::after {
-            content: "";
-            position: absolute;
-            top: 5px;
-            right: -1px;
-            border: 4px solid transparent;
-            border-top-color: #63e2b2;
-            border-left-color: #63e2b2;
-            transform: rotate(10deg);
-        }
-
         #message-form-container {
             display: none;
             margin-top: 20px;
@@ -185,6 +88,7 @@
             font-family: inherit;
         }
         textarea { resize: vertical; margin-bottom: 15px; }
+        
         #submit-btn {
             padding: 10px 30px;
             font-size: 16px;
@@ -198,161 +102,9 @@
             transition: all 0.2s ease;
         }
         #submit-btn:active { transform: scale(0.95); background-color: #059669; }
-
-        /* 🌸 ポップアップ設定 */
-        #statusModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('../外観.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .modal-title {
-            font-size: 22px; 
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #2c3e50;
-            line-height: 1.5;
-            width: 95%;
-            max-width: 365px;
-            white-space: normal; 
-            padding: 15px 10px;
-            box-sizing: border-box;
-            display: inline-block;
-            border: 4px solid transparent;
-            border-radius: 16px;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), 
-                linear-gradient(45deg, 
-                    rgba(255, 51, 102, 0.4), 
-                    rgba(255, 153, 51, 0.4), 
-                    rgba(255, 255, 51, 0.4), 
-                    rgba(51, 204, 102, 0.4), 
-                    rgba(51, 153, 255, 0.4), 
-                    rgba(153, 51, 255, 0.4)
-                ); 
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        .country-container {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
-            padding: 20px 15px;
-            margin-bottom: 25px;
-            width: 95%;
-            max-width: 365px;
-            box-sizing: border-box;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        
-        .country-label {
-            font-size: 28px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            display: block;
-            text-align: center;
-        }
-
-        .radio-group {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 10px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            font-size: 20px;
-            color: #333;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 0;
-        }
-
-        .radio-option input[type="radio"] {
-            margin-right: 8px;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-        }
-
-        .country-text-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            box-sizing: border-box;
-            margin-top: 15px;
-            display: none; 
-        }
-        
-        .modal-btn-group {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            max-width: 400px;
-        }
-        .modal-btn {
-            flex: 1;
-            padding: 22px 10px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .modal-btn:active { transform: scale(0.97); }
-        .btn-member { background-color: #2ecc71; color: white; }
-        .btn-nonmember { background-color: #add8e6; color: #1e293b; } 
     </style>
 </head>
 <body>
-
-    <div id="statusModal">
-        <div class="modal-title">Welcome to<br>🪷ーMIZOU-SANPAIー🪷<br>Please Check In</div>
-        
-        <div class="country-container">
-            <span class="country-label">Where are you from?</span>
-            
-            <div class="radio-group">
-                <label class="radio-option">
-                    <input type="radio" name="countryOpt" value="Thailand" checked onclick="toggleCountryInput(false)">
-                    Thailand
-                </label>
-                <label class="radio-option">
-                    <input type="radio" name="countryOpt" value="Other" onclick="toggleCountryInput(true)">
-                    Other
-                </label>
-            </div>
-            <input type="text" id="customCountry" class="country-text-input" placeholder="Enter your country">
-        </div>
-
-        <div class="modal-btn-group">
-            <button class="modal-btn btn-member" onclick="selectStatus('Member')">Member</button>
-            <button class="modal-btn btn-nonmember" onclick="selectStatus('Visitor')">Visitor</button>
-        </div>
-    </div>
 
     <div id="quote-container">
         <div id="content-body">Loading...</div>
@@ -362,8 +114,8 @@
         
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="Division(Optional)">
-                <input type="text" name="kei" placeholder="Lineage(Optional)">
+                <input type="text" name="bukai" placeholder="Division (Optional)">
+                <input type="text" name="kei" placeholder="Lineage (Optional)">
                 <input type="text" name="name" placeholder="Name (Optional)">
                 <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
                 <br>
@@ -372,16 +124,8 @@
         </div>
     </div>
 
-    <div class="proxy-container">
-        <button id="proxy-btn" onclick="showProxyModal()">
-            <span class="custom-refresh-icon">
-                <span class="sub-arrow-layer"></span>
-            </span>
-            Check in for another person
-        </button>
-    </div>
-
     <script>
+        // 🌸 Sacred Quotes Data (23 Items)
         const quotesData = [
             { en: "Always together. Always by your side.<br>That is Buddha. When you feel down, sad,<br>or lose confidence,<br>close your eyes and remember.<br>You are always with Buddha.", image: "bg1.jpg" },
             { en: "I came to know the \"heart\" of Buddha through your kindness. Thank you.", image: "bg2.jpg" },
@@ -408,11 +152,8 @@
             { en: "Doing good deeds may require conscious effort at first<br>to keep it going. As you keep telling yourself over and over,<br>doing good will naturally become a \"habit.\"<br>At that moment, you will find a wonderful version of yourself.", image: "bg23.jpg" }
         ];
 
-        // 🔗 GASのウェブアプリURL（★ご自身のURLに差し替えてください★）
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbyYKNJFmDpdhT0RANyKVLdNYOBIaROFkX4nPNtkdtlMAG2imcxm3QEJ_HlBV2RGncRf/exec';
-
-        let selectedMemberStatus = "Unknown"; 
-        let selectedCountry = "Thailand";
+        // 🔗 GAS Web App URL (★ Please replace with your own URL ★)
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbyhccbOTpxAPHJ1MZb8PygjcPAYhDoCjRqxIjXPEPVViu63LfvKSwXX-cJzg_9vtPKl/exec';
 
         function getOrCreateDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -423,99 +164,57 @@
             return id;
         }
 
-        function getTodayString() {
-            const now = new Date();
-            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-        }
-
+        // 🎬 Executed automatically on page load
         window.onload = function() {
             try {
-                document.getElementById("statusModal").style.display = "flex";
+                // 1. Display a random quote
                 refreshQuote();
+                
+                // 2. Automatically send an access log in the background
+                sendAutoAccessLog();
             } catch (error) {
-                alert("An error occurred while loading.");
+                console.error("Initialization error:", error);
             }
         };
 
+        // 🎲 Randomly selects and shows a quote
         function refreshQuote() {
+            if (quotesData.length === 0) return;
             const randomIndex = Math.floor(Math.random() * quotesData.length);
             const selectedSet = quotesData[randomIndex];
+            
+            // Update background image
             document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
             
+            // Update quote text
             let htmlContent = "";
             if(selectedSet.en) htmlContent += `<div class="lang-block lang-english">${selectedSet.en}</div>`;
             document.getElementById("content-body").innerHTML = htmlContent;
         }
 
-        function toggleCountryInput(show) {
-            const inputField = document.getElementById("customCountry");
-            inputField.style.display = show ? "block" : "none";
-            if(show) inputField.focus();
-        }
-
-        function showProxyModal() {
-            document.querySelector('input[name="countryOpt"][value="Thailand"]').checked = true;
-            toggleCountryInput(false);
-            document.getElementById("customCountry").value = "";
-            document.getElementById("statusModal").style.display = "flex";
-        }
-
-        function resetMessageForm() {
-            const actionBtn = document.getElementById('action-btn');
-            if (actionBtn) {
-                actionBtn.innerText = "💌 Message of Gratitude";
-                actionBtn.style.display = 'inline-block';
-                actionBtn.disabled = false;
-                actionBtn.style.backgroundColor = "#0076ff"; 
-                actionBtn.style.boxShadow = "0 4px 10px rgba(0,118,255,0.3)";
-            }
-            document.getElementById('message-form-container').style.display = 'none';
-            form.reset();
-            const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) {
-                submitBtn.innerText = "Submit";
-                submitBtn.disabled = false;
-            }
-        }
-
-        function selectStatus(statusValue) {
-            selectedMemberStatus = statusValue; 
-            
-            let finalCountry = "Thailand";
-            const radioVal = document.querySelector('input[name="countryOpt"]:checked').value;
-            if (radioVal === "Other") {
-                const customVal = document.getElementById("customCountry").value.trim();
-                finalCountry = customVal ? customVal : "Other";
-            }
-            selectedCountry = finalCountry;
-
-            document.getElementById("statusModal").style.display = "none";
-            refreshQuote();
-            
-            localStorage.setItem('lastCheckInDate', getTodayString());
-            resetMessageForm();
-
+        // 📡 Automatically sends data to GAS on load
+        function sendAutoAccessLog() {
             fetch(gasUrl, {
                 method: 'POST',
                 mode: 'no-cors', 
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     type: "access", 
-                    status: statusValue, 
-                    country: finalCountry,
+                    status: "Auto",   
+                    country: "Auto",  
                     deviceId: getOrCreateDeviceId()
                 })
             })
-            .catch((err) => { console.error("Transmission failed: ", err); });
+            .catch((err) => { console.error("Auto log transmission failed:", err); });
         }
 
+        // 💌 Toggle the visibility of the message form
         function toggleForm() {
             document.getElementById('message-form-container').style.display = 'block';
             document.getElementById('action-btn').style.display = 'none';
         }
 
+        // 📤 Form submission process
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -524,8 +223,8 @@
 
             const formData = new FormData(form);
             formData.append("type", "message"); 
-            formData.append("status", selectedMemberStatus); 
-            formData.append("country", selectedCountry);
+            formData.append("status", "Auto"); 
+            formData.append("country", "Auto");
             formData.append("deviceId", getOrCreateDeviceId());
 
             const object = Object.fromEntries(formData);
@@ -534,13 +233,11 @@
             fetch(gasUrl, { 
                 method: 'POST', 
                 mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: json 
             })
             .then(() => {
-                alert("Your message of gratitude has been sent successfully.");
+                alert("Your message of gratitude has been sent to the secretariat. Thank you very much.");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';
                 const actionBtn = document.getElementById('action-btn');
@@ -553,7 +250,7 @@
                 }
             })
             .catch((error) => {
-                alert("A connection error occurred.");
+                alert("A connection error occurred. Please try again where the signal is better.");
                 if (submitBtn) { submitBtn.innerText = "Submit"; submitBtn.disabled = false; }
             });
         });

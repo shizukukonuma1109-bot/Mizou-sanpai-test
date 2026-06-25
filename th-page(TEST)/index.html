@@ -5,46 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artwork Message</title>
     <style>
+        /* 🌍 Centers the main box perfectly horizontally and vertically */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: sans-serif;
-            margin: 0;
-            padding: 15px;
+            align-items: center; 
+            font-family: 'Sarabun', sans-serif; /* Recommended for clean Thai reading */
             text-align: center;
-            
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             transition: background-image 0.5s ease;
+            box-sizing: border-box;
+            padding: 20px;
         }
+
+        /* 📜 Main container for the quotes */
         #quote-container {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
-            max-height: 90vh;
+            max-height: 85vh; 
             overflow-y: auto;
         }
-        
+
         .lang-block {
             margin-bottom: 0;
-            line-height: 1.8;
         }
 
+        /* 🇹🇭 Thai font spacing adjustment (important to prevent vowel clipping) */
         .lang-thai {
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 17px;
+            font-weight: 500;
             color: #333;
+            line-height: 1.8;
             word-break: break-word;
         }
 
-        /* Action Button Style */
         #action-btn {
             margin-top: 25px;
             padding: 12px 24px;
@@ -60,11 +67,8 @@
             width: 80%;
             max-width: 250px;
         }
-        #action-btn:active {
-            transform: scale(0.95);
-        }
+        #action-btn:active { transform: scale(0.95); }
 
-        /* Form Style */
         #message-form-container {
             display: none;
             margin-top: 20px;
@@ -74,8 +78,6 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Input Style */
         input[type="text"], textarea {
             width: 100%;
             padding: 12px 15px;
@@ -86,11 +88,8 @@
             margin-bottom: 12px;
             font-family: inherit;
         }
-        textarea {
-            resize: vertical;
-            margin-bottom: 15px;
-        }
-
+        textarea { resize: vertical; margin-bottom: 15px; }
+         
         #submit-btn {
             padding: 10px 30px;
             font-size: 16px;
@@ -103,34 +102,35 @@
             box-shadow: 0 4px 10px rgba(16,185,129,0.3);
             transition: all 0.2s ease;
         }
-        #submit-btn:active {
-            transform: scale(0.95);
-            background-color: #059669;
-        }
+        #submit-btn:active { transform: scale(0.95); background-color: #059669; }
     </style>
+    <!-- Google Fonts for Thai styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="quote-container">
-        <div id="content-body">กำลังโหลด...</div>
-        
-        <button id="action-btn" onclick="toggleForm()">💌 ส่งข้อความขอบคุณ</button>
-
+        <div id="content-body">Loading...</div>
+         
+        <br>
+        <button id="action-btn" onclick="toggleForm()">💌 Message of Gratitude</button>
+         
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="ฝ่าย / แผนก (ถ้ามี)">
-                <input type="text" name="kei" placeholder="กลุ่ม / หน่วยงาน (ถ้ามี)">
-                <input type="text" name="name" placeholder="ชื่อ (ถ้ามี)">
-                
-                <textarea name="message" rows="4" placeholder="กรุณากรอกข้อความของคุณ..." required></textarea>
+                <input type="text" name="bukai" placeholder="Division (Optional)">
+                <input type="text" name="kei" placeholder="Lineage (Optional)">
+                <input type="text" name="name" placeholder="Name (Optional)">
+                <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
                 <br>
-                <button type="submit" id="submit-btn">ส่งข้อความ</button>
+                <button type="submit" id="submit-btn">Submit</button>
             </form>
         </div>
     </div>
 
     <script>
-        // 💡 23 Inspirational Messages (Thai Version)
+        // 🌸 Sacred Quotes Data in Thai (23 Items)
         const quotesData = [
             { th: "พระพุทธองค์อยู่กับเราเสมอ อยู่เคียงข้างเราเสมอ<br>นั่นคือพระพุทธองค์ เมื่อใดที่รู้สึกทุกข์ใจ เศร้าใจ<br>หรือเริ่มหมดความมั่นใจ<br>ขอให้หลับตาลงแล้วระลึกไว้ว่า<br>ตัวเรานั้นอยู่ร่วมกับพระพุทธองค์เสมอ", image: "bg1.jpg" },
             { th: "ฉันได้รับรู้ถึง \"หัวใจ\" ของพระพุทธองค์ผ่านความเมตตาของคุณ ขอบคุณนะ", image: "bg2.jpg" },
@@ -157,103 +157,108 @@
             { th: "การทำความดี ในช่วงแรกอาจต้อง \"ตั้งใจ\" ทำ ไม่งั้นอาจจะไม่ต่อเนื่อง<br>แต่เมื่อคอยบอกตัวเองซ้ำ ๆ การทำดีก็จะกลายเป็น \"นิสัย\" ไปเองโดยธรรมชาติ<br>เมื่อถึงตอนนั้น คุณจะได้พบกับตัวคุณในเวอร์ชันที่วิเศษที่สุดเลยล่ะ", image: "bg23.jpg" }
         ];
 
-        // 💡 [Important] Paste your common Google Apps Script (GAS) Web app URL here!
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbyw8pAvrfggC3fIJoLLemGFfadZd_Qr295XA6C-zqzCtnCLELzZAwOnnUcA08itDRV2/exec';
+        // 🔗 GAS Web App URL (★ Please replace with your own URL ★)
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbwZ8swKrM8u-BBww7fsbHkNbzW9AdNHK_dyRYMqJ2zGtlrWE9IQYbGYUIRi2drWbkwV/exec';
 
+        function getOrCreateDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = 'dev_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('deviceId', id);
+            }
+            return id;
+        }
+
+        // 🎬 Executed automatically on page load
         window.onload = function() {
             try {
-                // --- [Daily Duplicate Cut] Auto Count Access Log ---
-                const today = new Date().toISOString().split('T')[0];
-                const lastVisitDate = localStorage.getItem('lastVisitDate_TH');
+                // 1. Display a random quote
+                refreshQuote();
                 
-                // Notify GAS only if this is the first access today for Thai page
-                if (lastVisitDate !== today) {
-                    fetch(gasUrl, {
-                        method: 'POST',
-                        body: JSON.stringify({ type: "access", lang: "TH" }) // Thai Stamp
-                    });
-                    localStorage.setItem('lastVisitDate_TH', today);
-                }
-                // -----------------------------------------------------------
-
-                const randomIndex = Math.floor(Math.random() * quotesData.length);
-                const selectedSet = quotesData[randomIndex];
-                
-                // Assumes the image folder (Main) is one level up (../)
-                document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
-                
-                let htmlContent = "";
-                if(selectedSet.th) htmlContent += `<div class="lang-block lang-thai">${selectedSet.th}</div>`;
-                
-                document.getElementById("content-body").innerHTML = htmlContent;
+                // 2. Automatically send an access log in the background
+                sendAutoAccessLog();
             } catch (error) {
-                alert("เกิดข้อผิดพลาดในการโหลดข้อมูล");
-                console.error("Error details:", error);
+                console.error("Initialization error:", error);
             }
         };
 
-        function toggleForm() {
-            const formContainer = document.getElementById('message-form-container');
-            const actionBtn = document.getElementById('action-btn');
-            formContainer.style.display = 'block';
-            actionBtn.style.display = 'none';
+        // 🎲 Randomly selects and shows a quote
+        function refreshQuote() {
+            if (quotesData.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * quotesData.length);
+            const selectedSet = quotesData[randomIndex];
+            
+            // Update background image
+            document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
+            
+            // Update quote text (Thai styling applied)
+            let htmlContent = "";
+            if(selectedSet.th) htmlContent += `<div class="lang-block lang-thai">${selectedSet.th}</div>`;
+            document.getElementById("content-body").innerHTML = htmlContent;
         }
 
+        // 📡 Automatically sends data to GAS on load
+        function sendAutoAccessLog() {
+            fetch(gasUrl, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    type: "access", 
+                    status: "Auto",   
+                    country: "Auto",  
+                    deviceId: getOrCreateDeviceId()
+                })
+            })
+            .catch((err) => { console.error("Auto log transmission failed:", err); });
+        }
+
+        // 💌 Toggle the visibility of the message form
+        function toggleForm() {
+            document.getElementById('message-form-container').style.display = 'block';
+            document.getElementById('action-btn').style.display = 'none';
+        }
+
+        // 📤 Form submission process
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) {
-                submitBtn.innerText = "กำลังส่ง...";
-                submitBtn.disabled = true;
-            }
+            if (submitBtn) { submitBtn.innerText = "Sending..."; submitBtn.disabled = true; }
 
             const formData = new FormData(form);
-            formData.append("lang", "TH"); // Records "TH" in the spreadsheet
+            formData.append("type", "message"); 
+            formData.append("status", "Auto"); 
+            formData.append("country", "Auto");
+            formData.append("deviceId", getOrCreateDeviceId());
 
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
 
-            fetch(gasUrl, {
-                method: 'POST',
-                body: json
+            fetch(gasUrl, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: json 
             })
-            .then(async (response) => {
-                let res = await response.json();
-                if (res.status === "success") {
-                    alert("ส่งข้อความขอบคุณของคุณเรียบร้อยแล้ว");
-                    form.reset();
-                    
-                    const formContainer = document.getElementById('message-form-container');
-                    if (formContainer) formContainer.style.display = 'none';
-                    
-                    const actionBtn = document.getElementById('action-btn');
-                    if (actionBtn) {
-                        actionBtn.innerText = "💌 ส่งแล้ว";
-                        actionBtn.style.display = 'inline-block';
-                        actionBtn.disabled = true;
-                        actionBtn.style.backgroundColor = "#ccc";
-                        actionBtn.style.boxShadow = "none";
-                    }
-                } else {
-                    alert("ส่งไม่สำเร็จ: " + (res.message || "เกิดข้อผิดพลาดไม่ทราบสาเหตุ"));
-                    if (submitBtn) {
-                        submitBtn.innerText = "ส่งข้อความ";
-                        submitBtn.disabled = false;
-                    }
+            .then(() => {
+                alert("Your message of gratitude has been sent to the secretariat. Thank you very much.");
+                form.reset();
+                document.getElementById('message-form-container').style.display = 'none';
+                const actionBtn = document.getElementById('action-btn');
+                if (actionBtn) {
+                    actionBtn.innerText = "💌 Sent";
+                    actionBtn.style.display = 'inline-block';
+                    actionBtn.disabled = true;
+                    actionBtn.style.backgroundColor = "#ccc";
+                    actionBtn.style.boxShadow = "none";
                 }
             })
             .catch((error) => {
-                alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้งในภายหลัง");
-                console.error(error);
-                if (submitBtn) {
-                    submitBtn.innerText = "ส่งข้อความ";
-                    submitBtn.disabled = false;
-                }
+                alert("A connection error occurred. Please try again.");
+                if (submitBtn) { submitBtn.innerText = "Submit"; submitBtn.disabled = false; }
             });
         });
     </script>
-
 </body>
 </html>

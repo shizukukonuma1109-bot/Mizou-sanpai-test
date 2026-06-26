@@ -153,7 +153,7 @@
         ];
 
         // 🔗 GAS Web App URL (★作成したGASのWebアプリURLに差し替えてください★)
-        const gasUrl = 'https://script.google.com/macros/s/AKfycbziOjs5rax-tMru6DnQ67wLHUzJBH9rGVHRqDAxAI4LHJxSBM7q_m60fs90sHKq9zCD/exec';
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbxjX_B59xGc1miy6WJLJnYOa9yNTCsiE2ZDBlTdfHt6byD0x6w0vq4gZwT0cKZLOIp_/exec';
 
         function getOrCreateDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -232,7 +232,7 @@
                 body: JSON.stringify(payload)
             })
             .then(res => {
-                alert("Your message of gratitude has been sent. Thank you very much.");
+                alert("Your message has been sent. Thank you.");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';
                 const actionBtn = document.getElementById('action-btn');

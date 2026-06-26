@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artwork Message</title>
     <style>
-        /* 🌍 Centers the main box perfectly horizontally and vertically */
+        /* 🌍 จัดให้อยู่กึ่งกลางหน้าจออย่างสมบูรณ์ */
         html, body {
             height: 100%;
             margin: 0;
@@ -16,7 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center; 
-            font-family: 'Sarabun', sans-serif; /* Recommended for clean Thai reading */
+            font-family: sans-serif;
             text-align: center;
             background-size: cover;
             background-position: center;
@@ -26,7 +26,7 @@
             padding: 20px;
         }
 
-        /* 📜 Main container for the quotes */
+        /* 📜 กล่องข้อความหลัก */
         #quote-container {
             background: rgba(255, 255, 255, 0.85);
             padding: 35px 20px;
@@ -41,14 +41,13 @@
 
         .lang-block {
             margin-bottom: 0;
+            line-height: 1.8;
         }
 
-        /* 🇹🇭 Thai font spacing adjustment (important to prevent vowel clipping) */
         .lang-thai {
-            font-size: 17px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: bold;
             color: #333;
-            line-height: 1.8;
             word-break: break-word;
         }
 
@@ -89,7 +88,7 @@
             font-family: inherit;
         }
         textarea { resize: vertical; margin-bottom: 15px; }
-         
+        
         #submit-btn {
             padding: 10px 30px;
             font-size: 16px;
@@ -104,60 +103,57 @@
         }
         #submit-btn:active { transform: scale(0.95); background-color: #059669; }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="quote-container">
-        <div id="content-body">Loading...</div>
-         
+        <div id="content-body">กำลังโหลด...</div>
+        
         <br>
-        <button id="action-btn" onclick="toggleForm()">💌 Message of Gratitude</button>
-         
+        <button id="action-btn" onclick="toggleForm()">💌 ข้อความแสดงความขอบคุณ</button>
+        
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="Division (Optional)">
-                <input type="text" name="kei" placeholder="Lineage (Optional)">
-                <input type="text" name="name" placeholder="Name (Optional)">
-                <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
+                <input type="text" name="bukai" placeholder="ฝ่าย / แผนก (ไม่บังคับ)">
+                <input type="text" name="kei" placeholder="สายงาน (ไม่บังคับ)">
+                <input type="text" name="name" placeholder="ชื่อ (ไม่บังคับ)">
+                <textarea name="message" rows="4" placeholder="กรุณากรอกข้อความแสดงความขอบคุณของคุณ..." required></textarea>
                 <br>
-                <button type="submit" id="submit-btn">Submit</button>
+                <button type="submit" id="submit-btn">ส่งข้อความ</button>
             </form>
         </div>
     </div>
 
     <script>
-        // 🌸 New Sacred Quotes Data in Thai (23 Items Updated)
+        // 🌸 ข้อมูลคำสอนอันศักดิ์สิทธิ์ (23 ข้อความ)
         const quotesData = [
-            { th: "ปวงพระพุทธเจ้าสถิตอยู่เคียงข้างเราเสมอ  หลับตาและระลึกถึงสิ่งนี้ไว้ เมื่อใดก็ตามที่รู้สึกท้อแท้หรือกำลังเผชิญกับความยากลำบากในชีวิต", image: "bg1.jpg" },
-            { th: "ฉันได้รับรู้ถึงจิตใจของพระพุทธองค์ ผ่านความอ่อนโยนและความเมตตาของคุณ ขอบคุณมาก", image: "bg2.jpg" },
-            { th: "การสื่อสารเป็นสิ่งที่สำคัญมาก “อรุณสวัสดิ์” “สวัสดี” เรามาเริ่มต้นด้วยการกล่าวทักทายกันเถอะ", image: "bg3.jpg" },
-            { th: "ความพยายามอย่างเต็มที่เป็นสิ่งวิเศษ แต่อาจจะเหนื่อยล้าหากเราพยายามอย่างหนักเกินไปตั้งแต่ต้น  ตั้งเป้าหมายที่ทำได้และก้าวไปข้างหน้าทีละน้อยจะดีกว่า", image: "bg4.jpg" },
-            { th: "พระพุทธองค์สถิตอยู่ในใจของทุกคน  พวกเราทุกคนล้วนปรารถนาที่จะมีจิตใจดีงาม ช่วยเหลือผู้อื่น และมีความจริงใจ  เมื่อใดก็ตามที่เรามีความรู้สึกดี ๆ เช่นนี้ นั่นคือเราได้พบกับพุทธะที่อยู่ในใจของเรา", image: "bg5.jpg" },
-            { th: "ผู้ที่สามารถสะท้อนมองตนเองได้นั้นเป็นผู้ที่มีจิตใจอันบริสุทธิ์", image: "bg6.jpg" },
-            { th: "เราชอบที่จะมีรูปร่างหน้าตาดี แต่สิ่งนั้นเพียงอย่างเดียวไม่ใช่คำจำกัดความของคำว่าสวยงาม  ด้วยคำพูดและการกระทำที่จริงใจ ใคร ๆ ก็สามารถเป็นคนที่สวยงามอย่างแท้จริงได้", image: "bg7.jpg" },
-            { th: "ความร่าเริง ความจริงใจ ความเมตตา ความอบอุ่น – พวกเราแต่ละคนมีบางสิ่งพิเศษที่สามารถมอบให้แก่ผู้อื่นได้", image: "bg8.jpg" },
-            { th: "การมีพลังที่จะพยายามอย่างเต็มที่ หรือความปรารถนาที่จะทำให้ดียิ่งขึ้น นำความสุขมาให้", image: "bg9.jpg" },
-            { th: "บางครั้งเรารู้สึกเครียด  เมื่อฉันรู้สึกเช่นนั้น ฉันจะหายใจเข้าลึก ๆ แล้วก็พร้อมที่จะพยายามอย่างเต็มที่อีกครั้ง", image: "bg10.jpg" },
-            { th: "ปวงพระพุทธเจ้านำทางให้เราได้พบพานกับผู้คน ณ เวลาและสถานที่นั้น ๆ ด้วยเหตุผลอะไรบางอย่าง", image: "bg11.jpg" },
-            { th: "จิตใจของเราเปล่งประกายทุกครั้งที่เรารู้สึกกตัญญูขอบคุณ", image: "bg12.jpg" },
-            { th: "อย่าคิดว่า “ฉันไม่มีอะไรจะมอบให้!” ปวงพระพุทธเจ้าและผู้คนมากมายเชื่อมั่นในตัวคุณ  มองไปข้างหน้าและคิดในแง่บวก  เพียงแค่ทำอย่างเต็มที่ แล้วคุณจะไม่เสียใจภายหลัง", image: "bg13.jpg" },
-            { th: "เราสามารถที่จะเห็นอกเห็นใจเฉพาะผู้ที่มีประสบการณ์ตรงกับเราเท่านั้นหรือ?  ฉันคิดว่าเราสามารถจะเชื่อมต่อกับผู้อื่นได้ ตราบเท่าที่เราเปิดใจพยายามทำความเข้าใจและช่วยบรรเทาความเจ็บปวดของพวกเขา", image: "bg14.jpg" },
-            { th: "การคำนึงถึงผู้อื่นหมายถึงการเอาใจเขามาใส่ใจเราและเข้าอกเข้าใจผู้อื่น", image: "bg15.jpg" },
-            { th: "เมื่อบางสิ่งเกิดขึ้นและทำให้ฉันรู้สึกแย่ ฉันจะบอกกับตัวเองให้หลุดออกจากความรู้สึกนั้น โดยกล่าวว่า “ไม่มีประโยชน์อะไรที่จะร้องไห้คร่ำครวญถึงน้ำนมที่หกไปแล้ว! คราวหน้าฉันจะระมัดระวังให้มากขึ้นและทำให้ดีขึ้นกว่านี้”", image: "bg16.jpg" },
-            { th: "การพิจารณาความต้องการของตนเองเป็นสิ่งสำคัญ แต่การคิดถึงผู้อื่นมีความสำคัญยิ่งกว่า  ปวงพระพุทธเจ้าจะดูแลเราเมื่อเราพยายามเป็นคนที่ใจดี อบอุ่น ช่วยเหลือผู้อื่น และอุทิศตนเพื่อผู้อื่น", image: "bg17.jpg" },
-            { th: "จงอย่าลืมว่ามีผู้คนมากมายที่ช่วยเรา และรักเราตั้งแต่วันที่เราเกิดมา ชีวิตของเรามีความสำคัญสำหรับครอบครัว เพื่อน และตัวฉัน", image: "bg18.jpg" },
-            { th: "ไม่มีใครสมบูรณ์แบบ", image: "bg19.jpg" },
-            { th: "ขอให้ปฏิบัติกับทุกสิ่งเหมือนกับว่าสิ่งนั้นมีชีวิตและมีค่าสำหรับการดูแล  ยิ่งเห็นคุณค่าของทุกสิ่งรอบ ๆ ตัวเท่าใด ชีวิตของเราก็จะได้รับพระพรมากขึ้นเท่านั้น  ธรรมชาติและตัวเรา สิ่งของและผู้คน – ล้วนเป็นหนึ่งเดียวกัน", image: "bg20.jpg" },
-            { th: "บ่อยครั้งเราพบกับปัญหาทางด้านการสื่อสาร  เมื่อใดก็ตามที่สิ่งนี้เกิดขึ้น ให้ฟังความคิดเห็นของคนอื่นก่อนที่จะออกความคิดเห็นของตัวเอง  นั่นจะทำให้ทั้งสองคนใกล้ชิดกันมากขึ้น", image: "bg21.jpg" },
-            { th: "ทุกคนชอบการต้อนรับด้วยรอยยิ้ม  การมอบรอยยิ้มอันอบอุ่นเป็นส่วนสำคัญในการฝึกปฏิบัติทางพุทธศาสนาด้วยเช่นกัน  เป็นรูปแบบหนึ่งของ “ทานบารมี”", image: "bg22.jpg" },
-            { th: "เมื่อเราพยายามทำสิ่งที่ดี เราอาจต้องพยายามอย่างมีสติเพื่อที่จะทำตามให้สำเร็จก่อน ในที่สุด  มันก็จะกลายเป็นนิสัยของเราโดยธรรมชาติ  แล้วเราจะพบความงดงามอยู่ในตัว", image: "bg23.jpg" }
+            { th: "อยู่ด้วยกันเสมอ อยู่เคียงข้างเธอเสมอ<br>นั่นคือพระพุทธองค์ เมื่อใดที่รู้สึกท้อแท้ เศร้าใจ<br>หรือสูญเสียความมั่นใจ<br>จงหลับตาลงและระลึกไว้ว่า<br>เธอนั้นอยู่ร่วมกับพระพุทธองค์เสมอ", image: "bg1.jpg" },
+            { th: "ฉันได้เรียนรู้ถึง \"พระทัย\" ของพระพุทธองค์ผ่านความเมตตาของคุณ ขอบคุณนะ", image: "bg2.jpg" },
+            { th: "การสื่อสารเป็นสิ่งสำคัญมาก ไม่ว่าจะผ่านคำพูดหรือท่าทาง<br>\"อรุณสวัสดิ์\" \"สวัสดี\"<br><br>มาเริ่มกันด้วยการทักทายกันเถอะ", image: "bg3.jpg" },
+            { th: "เป็นสิ่งวิเศษมากที่คุณรู้สึกมีแรงผลักดันที่จะทำสิ่งต่างๆ ให้ดีที่สุด<br>อย่างไรก็ตาม หากหักโหมมากเกินไปในทันที<br>คุณอาจจะรู้สึกเหนื่อยล้าได้<br>อย่าฝืนตนเอง ค่อยเป็นค่อยไปทีละก้าว<br>ลองเริ่มจากสิ่งที่คุณสามารถทำได้ก่อนดีไหม", image: "bg4.jpg" },
+            { th: "พระพุทธองค์สถิตอยู่ภายในใจ<br>ของทุกคน<br>ความปรารถนาที่จะใจดี ที่จะช่วยเหลือ ที่จะซื่อสัตย์—<br>คุณเองก็มีจิตใจเช่นนั้นอยู่บ้างใช่ไหม?<br>\"สิ่งเล็กๆ\" นั้นแหละ คือพระพุทธองค์องค์น้อยในตัวคุณ", image: "bg5.jpg" },
+            { th: "ผู้ที่รู้จักทบทวนและสะท้อนดูตนเอง<br>คือผู้ที่มีจิตใจที่งดงาม", image: "bg6.jpg" },
+            { th: "การดูแลรูปลักษณ์ภายนอกให้เรียบร้อยและงดงามนั้น<br>เป็นสิ่งที่ดีมาก และยิ่งหากเพิ่มคำพูด<br>และทัศนคติที่มาจากใจเข้าไปด้วย<br>คุณก็จะยิ่งงดงามมากยิ่งขึ้นไปอีก", image: "bg7.jpg" },
+            { th: "ร่าเริง แจ่มใส ซื่อตรง มีเมตตา อบอุ่น— \"คนๆ นั้นช่างดีเหลือเกิน\"<br>อาจมีใครบางคนกล่าวเช่นนั้น<br>คุณเองก็มีสิ่งดีๆ เช่นนั้นอยู่ภายในตัวอย่างแน่นอน<br>พวกเราทุกคนต่างมีสิ่งพิเศษที่จะมอบให้แก่กัน", image: "bg8.jpg" },
+            { th: "การมีความปรารถนาที่จะพยายามและพัฒนาตนเองให้ดีขึ้น—<br>สิ่งนั้นเองคือ \"ความสุข\"", image: "bg9.jpg" },
+            { th: "บางครั้งคุณก็แค่อยากถอนหายใจลึกๆ แล้วพูดว่า<br>\"เฮ้อ\" ใช่ไหมล่ะ?<br>ฉันเองก็เป็นเหมือนกัน ในเวลาเช่นนั้น<br>ลองสูดหายใจเข้าลึกๆ ให้ร่างกายเต็มไปด้วยออกซิเจน...<br><br>\"เอาล่ะ มาพยายามกันใหม่อีกครั้งนะ\"", image: "bg10.jpg" },
+            { th: "บุคคลที่คุณได้ใช้เวลาร่วมด้วย ณ เวลาและสถานที่หนึ่งๆ<br>อาจเป็นบุคคลสำคัญที่พระพุทธองค์ทรงนำพาเข้ามาในชีวิตของคุณก็เป็นได้", image: "bg11.jpg" },
+            { th: "ทุกครั้งที่คุณรู้สึกซาบซึ้งและขอบคุณ<br>หัวใจของคุณจะเปล่งประกายงดงามยิ่งขึ้น", image: "bg12.jpg" },
+            { th: "อย่าก้าวถอยหลังเพียงเพราะคิดว่า<br>\"ฉันมันไม่เอาไหน...\"<br>พระพุทธองค์ทรงคาดหวังในตัวคุณอย่างมากในแบบที่คุณเป็น มีใครบางคนที่ต้องการคุณ<br>ในแบบที่คุณเป็นเช่นกัน<br>จงมองไปข้างหน้าและคิดในแง่บวก<br><br>หากคุณทำดีที่สุดแล้ว ก็ไม่มีสิ่งใดต้องเสียใจ", image: "bg13.jpg" },
+            { th: "เราจำเป็นต้องผ่านประสบการณ์แบบเดียวกัน<br>เพื่อที่จะเข้าใจความรู้สึกของผู้อื่นจริงหรือ?<br>ฉันไม่คิดเช่นนั้น<br>ตราบใดที่มีความจริงใจที่จะช่วยบรรเทาความทุกข์หรือความเศร้า<br>และพร้อมที่จะแบ่งเบามันแม้เพียงเล็กน้อย พวกเราก็สามารถเชื่อมถึงกันได้", image: "bg14.jpg" },
+            { th: "ความเห็นอกเห็นใจ หมายถึง<br>การนำตัวเราเข้าไปนั่งอยู่ในหัวใจของผู้อื่น", image: "bg15.jpg" },
+            { th: "ฉันเองก็มีช่วงเวลาที่หดหู่เช่นกัน<br>แต่ในเวลาแบบนั้น ฉันจะบอกตัวเอง<br>ให้เปลี่ยนมุมมองความคิดใหม่:<br>\"มันช่วยไม่ได้ สิ่งนั้นมันผ่านไปแล้ว<br>คราวหน้าต้องระวังให้มากกว่านี้นะ!\"", image: "bg16.jpg" },
+            { th: "การคิดถึงเรื่องของตนเองนั้นเป็นสิ่งสำคัญ<br>แต่การคิดถึงเรื่องของผู้อื่นเสมือนเป็นเรื่องของตนเอง<br>นั้นเป็นสิ่งสำคัญยิ่งกว่า<br>บุคคลที่ใจดี อบอุ่น คอยเกื้อหนุน<br>และอุทิศตนเพื่อผู้อื่น จะเป็นผู้ที่พระพุทธองค์ทรงรักและทะนุถนอม", image: "bg17.jpg" },
+            { th: "จงจดจำว่ามีผู้คนมากมายเพียงใดที่คอยช่วยเหลือและมอบความรักให้แก่คุณ<br>ตั้งแต่คุณเกิดมาจนถึงตอนนี้ ชีวิตของทุกคนล้วนมีค่า<br>ต่อครอบครัว ต่อเพื่อนพ้อง และต่อตัวฉันเอง", image: "bg18.jpg" },
+            { th: "ไม่มีใครในโลกนี้ที่สมบูรณ์แบบ", image: "bg19.jpg" },
+            { th: "จงเห็นคุณค่าของสิ่งของ ทุกสรรพสิ่งล้วนมีชีวิต<br>หากคุณดูแลรักษาพวกมันอย่างดี คุณก็จะได้รับการปกป้องจากสิ่งเหล่านั้น<br>ธรรมชาติกับตัวเรา เครื่องมือเครื่องใช้กับผู้คน—<br>ทั้งหมดล้วนหลอมรวมเป็นหนึ่งเดียวกัน", image: "bg20.jpg" },
+            { th: "เราจำเป็นต้องผ่านประสบการณ์แบบเดียวกัน<br>เพื่อที่จะเข้าใจความรู้สึกของผู้อื่นจริงหรือ?<br>ฉันไม่คิดเช่นนั้น<br>ตราบใดที่มีความจริงใจที่จะช่วยบรรเทาความทุกข์หรือความเศร้า<br>และพร้อมที่จะแบ่งเบามันแม้เพียงเล็กน้อย พวกเราก็สามารถเชื่อมถึงกันได้", image: "bg21.jpg" },
+            { th: "การต้อนรับผู้อื่นด้วยรอยยิ้มที่อ่อนโยนและอบอุ่น เรียกว่า<br>\"วากันเซะ\" (การทานด้วยใบหน้าที่ยิ้มแย้ม)<br>คุณเองก็คงมีความสุขใช่ไหมหากได้รับการต้อนรับด้วยรอยยิ้ม?<br>สิ่งนี้คือหนึ่งในหลักปฏิบัติที่สำคัญยิ่งในทางพระพุทธศาสนา", image: "bg22.jpg" },
+            { th: "การทำความดีอาจต้องใช้ความตั้งใจและพยายามในช่วงแรก<br>เพื่อให้ทำได้อย่างต่อเนื่อง เมื่อคุณคอยบอกตัวเองซ้ำแล้วซ้ำเล่า<br>การทำความดีนั้นจะกลายเป็น \"นิสัย\" ไปเองโดยธรรมชาติ<br>และในวินาทีนั้น คุณจะได้พบกับตัวคุณเองในเวอร์ชันที่งดงามที่สุด", image: "bg23.jpg" }
         ];
 
-        // 🔗 GAS Web App URL (★ Please replace with your own URL ★)
-        const gasUrl = 'https://script.google.com/macros/s/AKfycby-u6eWb9JhTUeBDBwDxMiLHYYTrAhhTxEmBzGpRHiTb7YW4RRHgKJsen-60VmVptNg/exec';
+        // 🔗 GAS Web App URL (★สร้างเวอร์ชันใหม่ใน GAS แล้วนำ URL มาแปะที่นี่★)
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbzgXBqC3YBJoxRNMcrty_hLHgysKk-iDeqKlE0EWKggNzA8V73Cix0hd0REpVfQZA5n/exec';
 
         function getOrCreateDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -168,87 +164,80 @@
             return id;
         }
 
-        // 🎬 Executed automatically on page load
         window.onload = function() {
             try {
-                // 1. Display a random quote
                 refreshQuote();
-                
-                // 2. Automatically send an access log in the background
-                sendAutoAccessLog();
+                sendAutoAccessLog(); // บันทึกสถิติการเข้าชมอัตโนมัติ
             } catch (error) {
                 console.error("Initialization error:", error);
             }
         };
 
-        // 🎲 Randomly selects and shows a quote
         function refreshQuote() {
             if (quotesData.length === 0) return;
             const randomIndex = Math.floor(Math.random() * quotesData.length);
             const selectedSet = quotesData[randomIndex];
-            
-            // Update background image
             document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
             
-            // Update quote text (Thai styling applied)
             let htmlContent = "";
             if(selectedSet.th) htmlContent += `<div class="lang-block lang-thai">${selectedSet.th}</div>`;
             document.getElementById("content-body").innerHTML = htmlContent;
         }
 
-        // 📡 Automatically sends data to GAS on load
+        // 📡 ส่งบันทึกการเข้าชมไปยัง GAS (ลบ no-cors ออก ส่งเป็น text/plain เพื่อป้องกันการเบิ้ล)
         function sendAutoAccessLog() {
+            const payload = { 
+                type: "access", 
+                lang: "thai",     // 👈 ระบุเพื่อให้ GAS บวกแต้มที่ช่องภาษาไทย (คอลัมน์ B)
+                status: "Auto",   
+                country: "Auto",  
+                deviceId: getOrCreateDeviceId()
+            };
+
             fetch(gasUrl, {
                 method: 'POST',
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    type: "access", 
-                    lang: "th",       // ✨ GAS側にタイ語QRからのアクセスだと伝える
-                    status: "Auto",   
-                    country: "Auto",  
-                    deviceId: getOrCreateDeviceId()
-                })
+                headers: { 'Content-Type': 'text/plain' }, 
+                body: JSON.stringify(payload)
             })
             .catch((err) => { console.error("Auto log transmission failed:", err); });
         }
 
-        // 💌 Toggle the visibility of the message form
         function toggleForm() {
             document.getElementById('message-form-container').style.display = 'block';
             document.getElementById('action-btn').style.display = 'none';
         }
 
-        // 📤 Form submission process
+        // 📤 ส่งแบบฟอร์มข้อความขอบคุณ
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) { submitBtn.innerText = "Sending..."; submitBtn.disabled = true; }
+            if (submitBtn) { 
+                submitBtn.innerText = "กำลังส่ง..."; 
+                submitBtn.disabled = true; // ล็อกปุ่มทันทีเพื่อป้องกันการกดเบิ้ล
+            }
 
             const formData = new FormData(form);
-            formData.append("type", "message"); 
-            formData.append("lang", "th");      // ✨ メッセージ送信時もタイ語コードを付与
-            formData.append("status", "Auto"); 
-            formData.append("country", "Auto");
-            formData.append("deviceId", getOrCreateDeviceId());
-
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
+            const payload = Object.fromEntries(formData);
+            
+            payload.type = "message";
+            payload.lang = "thai"; // 👈 ระบุภาษาไทยสำหรับข้อความขอบคุณ
+            payload.status = "Auto";
+            payload.country = "Auto";
+            payload.deviceId = getOrCreateDeviceId();
 
             fetch(gasUrl, { 
                 method: 'POST', 
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: json 
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
             })
-            .then(() => {
-                alert("Your message of gratitude has been sent. Thank you very much.");
+            .then(res => {
+                alert("ส่งข้อความแสดงความขอบคุณของคุณเรียบร้อยแล้ว ขอบคุณมากค่ะ");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';
                 const actionBtn = document.getElementById('action-btn');
                 if (actionBtn) {
-                    actionBtn.innerText = "💌 Sent";
+                    actionBtn.innerText = "💌 ส่งแล้ว";
                     actionBtn.style.display = 'inline-block';
                     actionBtn.disabled = true;
                     actionBtn.style.backgroundColor = "#ccc";
@@ -256,8 +245,8 @@
                 }
             })
             .catch((error) => {
-                alert("A connection error occurred. Please try again.");
-                if (submitBtn) { submitBtn.innerText = "Submit"; submitBtn.disabled = false; }
+                alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
+                if (submitBtn) { submitBtn.innerText = "ส่งข้อความ"; submitBtn.disabled = false; }
             });
         });
     </script>

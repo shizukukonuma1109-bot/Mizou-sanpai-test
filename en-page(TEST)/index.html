@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artwork Message</title>
     <style>
-        /* 🌍 Centers the main box perfectly horizontally and vertically */
+        /* 🌍 全体を画面中央に配置 */
         html, body {
             height: 100%;
             margin: 0;
@@ -26,7 +26,7 @@
             padding: 20px;
         }
 
-        /* 📜 Main container for the quotes */
+        /* 📜 メインコンテナ */
         #quote-container {
             background: rgba(255, 255, 255, 0.85);
             padding: 35px 20px;
@@ -125,7 +125,7 @@
     </div>
 
     <script>
-        // 🌸 Sacred Quotes Data (23 Items)
+        // 🌸 聖句データ
         const quotesData = [
             { en: "Always together. Always by your side.<br>That is Buddha. When you feel down, sad,<br>or lose confidence,<br>close your eyes and remember.<br>You are always with Buddha.", image: "bg1.jpg" },
             { en: "I came to know the \"heart\" of Buddha through your kindness. Thank you.", image: "bg2.jpg" },
@@ -152,8 +152,8 @@
             { en: "Doing good deeds may require conscious effort at first<br>to keep it going. As you keep telling yourself over and over,<br>doing good will naturally become a \"habit.\"<br>At that moment, you will find a wonderful version of yourself.", image: "bg23.jpg" }
         ];
 
-        // 🔗 GAS Web App URL (★ Please replace with your own URL ★)
-        const gasUrl = 'https://script.google.com/macros/s/AKfycby-u6eWb9JhTUeBDBwDxMiLHYYTrAhhTxEmBzGpRHiTb7YW4RRHgKJsen-60VmVptNg/exec';
+        // 🔗 GAS Web App URL (★作成したGASのWebアプリURLに差し替えてください★)
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbzgXBqC3YBJoxRNMcrty_hLHgysKk-iDeqKlE0EWKggNzA8V73Cix0hd0REpVfQZA5n/exec';
 
         function getOrCreateDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -164,81 +164,74 @@
             return id;
         }
 
-        // 🎬 Executed automatically on page load
         window.onload = function() {
             try {
-                // 1. Display a random quote
                 refreshQuote();
-                
-                // 2. Automatically send an access log in the background
-                sendAutoAccessLog();
+                sendAutoAccessLog(); // バックグラウンド自動アクセス送信
             } catch (error) {
                 console.error("Initialization error:", error);
             }
         };
 
-        // 🎲 Randomly selects and shows a quote
         function refreshQuote() {
             if (quotesData.length === 0) return;
             const randomIndex = Math.floor(Math.random() * quotesData.length);
             const selectedSet = quotesData[randomIndex];
-            
-            // Update background image
             document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
             
-            // Update quote text
             let htmlContent = "";
             if(selectedSet.en) htmlContent += `<div class="lang-block lang-english">${selectedSet.en}</div>`;
             document.getElementById("content-body").innerHTML = htmlContent;
         }
 
-        // 📡 Automatically sends data to GAS on load
+        // 📡 自動アクセスログ送信 (no-corsを取り除き、テキスト型でPOST)
         function sendAutoAccessLog() {
+            const payload = { 
+                type: "access", 
+                lang: "en",       // 👈 英語のQRコードページであることを明示
+                status: "Auto",   
+                country: "Auto",  
+                deviceId: getOrCreateDeviceId()
+            };
+
             fetch(gasUrl, {
                 method: 'POST',
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    type: "access", 
-                    lang: "en",       // 👈 Tells GAS this access comes from the English QR
-                    status: "Auto",   
-                    country: "Auto",  
-                    deviceId: getOrCreateDeviceId()
-                })
+                headers: { 'Content-Type': 'text/plain' }, 
+                body: JSON.stringify(payload)
             })
             .catch((err) => { console.error("Auto log transmission failed:", err); });
         }
 
-        // 💌 Toggle the visibility of the message form
         function toggleForm() {
             document.getElementById('message-form-container').style.display = 'block';
             document.getElementById('action-btn').style.display = 'none';
         }
 
-        // 📤 Form submission process
+        // 📤 メッセージフォーム送信処理
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) { submitBtn.innerText = "Sending..."; submitBtn.disabled = true; }
+            if (submitBtn) { 
+                submitBtn.innerText = "Sending..."; 
+                submitBtn.disabled = true; // 送信ボタンを即時無効化（連打防止）
+            }
 
             const formData = new FormData(form);
-            formData.append("type", "message"); 
-            formData.append("lang", "en");    // 👈 Tells GAS this message is from the English page
-            formData.append("status", "Auto"); 
-            formData.append("country", "Auto");
-            formData.append("deviceId", getOrCreateDeviceId());
-
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
+            const payload = Object.fromEntries(formData);
+            
+            payload.type = "message";
+            payload.lang = "en"; // 👈 英語のQRコードページであることを明示
+            payload.status = "Auto";
+            payload.country = "Auto";
+            payload.deviceId = getOrCreateDeviceId();
 
             fetch(gasUrl, { 
                 method: 'POST', 
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: json 
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
             })
-            .then(() => {
+            .then(res => {
                 alert("Your message of gratitude has been sent. Thank you very much.");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';

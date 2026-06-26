@@ -232,7 +232,7 @@
                 body: JSON.stringify(payload)
             })
             .then(res => {
-                alert("Your message has been sent. Thank you.");
+                alert("Your message has been sent.<br>Thank you.");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';
                 const actionBtn = document.getElementById('action-btn');

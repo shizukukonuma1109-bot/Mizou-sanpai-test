@@ -115,7 +115,7 @@
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
                 <input type="text" name="bukai" placeholder="部会 (任意)">
-                <input type="text" name="kei" placeholder="経 (任意)">
+                <input type="text" name="kei" placeholder="係 (任意)">
                 <input type="text" name="name" placeholder="名前 (任意)">
                 <textarea name="message" rows="4" placeholder="感謝のメッセージを入力してください..." required></textarea>
                 <br>
@@ -200,8 +200,9 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     type: "access", 
-                    status: "Auto",   // 選択廃止のため一律固定値
-                    country: "Auto",  // 選択廃止のため一律固定値
+                    lang: "jp",       // 👈 「日本語QR」からのアクセスであることをGASに伝えます
+                    status: "Auto",   
+                    country: "Auto",  
                     deviceId: getOrCreateDeviceId()
                 })
             })
@@ -223,6 +224,7 @@
 
             const formData = new FormData(form);
             formData.append("type", "message"); 
+            formData.append("lang", "jp");    // 👈 送信されたメッセージの言語も「jp」に指定
             formData.append("status", "Auto"); 
             formData.append("country", "Auto");
             formData.append("deviceId", getOrCreateDeviceId());

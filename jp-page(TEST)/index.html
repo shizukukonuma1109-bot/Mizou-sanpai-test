@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>み像参拝</title>
+    <title>Artwork Message</title>
     <style>
-        /* 🌍 全体を画面の「縦・横」の完全な中央に配置するためのベース設定 */
+        /* 🌍 画面の中央に綺麗に配置 */
         html, body {
             height: 100%;
             margin: 0;
@@ -16,7 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center; 
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: sans-serif;
             text-align: center;
             background-size: cover;
             background-position: center;
@@ -26,9 +26,9 @@
             padding: 20px;
         }
 
-        /* 📜 お言葉のBOX（画面中央に綺麗に収まるメインコンテナ） */
+        /* 📜 メインコンテナ */
         #quote-container {
-            background: rgba(255, 255, 255, 0.85); 
+            background: rgba(255, 255, 255, 0.85);
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -41,14 +41,14 @@
 
         .lang-block {
             margin-bottom: 0;
-            line-height: 1.9; 
+            line-height: 1.8;
         }
 
         .lang-japanese {
             font-size: 16px;
             font-weight: bold;
-            color: #2c3e50;
-            word-break: break-all;
+            color: #333;
+            word-break: break-word;
         }
 
         #action-btn {
@@ -107,17 +107,17 @@
 <body>
 
     <div id="quote-container">
-        <div id="content-body">お言葉を読み込み中...</div>
+        <div id="content-body">読み込み中...</div>
         
         <br>
-        <button id="action-btn" onclick="toggleForm()">💌 感謝の言葉</button>
+        <button id="action-btn" onclick="toggleForm()">💌 感謝のメッセージを送る</button>
         
         <div id="message-form-container">
             <form id="thank-you-form" method="POST">
                 <input type="text" name="bukai" placeholder="部会 (任意)">
-                <input type="text" name="kei" placeholder="係 (任意)">
-                <input type="text" name="name" placeholder="名前 (任意)">
-                <textarea name="message" rows="4" placeholder="感謝のメッセージを入力してください..." required></textarea>
+                <input type="text" name="kei" placeholder="系 (任意)">
+                <input type="text" name="name" placeholder="お名前 (任意)">
+                <textarea name="message" rows="4" placeholder="感謝のメッセージをご記入ください..." required></textarea>
                 <br>
                 <button type="submit" id="submit-btn">送信する</button>
             </form>
@@ -125,35 +125,35 @@
     </div>
 
     <script>
-        // 🌸 継主様の尊いお言葉データ（全23個）
+        // 🌸 聖句データ（23メッセージ）
         const quotesData = [
-            { jp: "いつも一緒。いつもそばにいてくださる。<br>それが、みほとけ。つらく、せつなく、<br>自信をなくしかけたとき、<br>眼を閉じて思い出してみてください。<br> 自分は、みほとけとともにある――と。", image: "bg1.jpg" },
-            { jp: "あなたのやさしさにみほとけの“こころ”を知りました。ありがとう。", image: "bg2.jpg" },
-            { jp: "言葉でも身ぶりでも会話はとても大切です。<br>「おはようございます」「こんにちは」<br><br>まずは、あいさつから。", image: "bg3.jpg" },
-            { jp: "「がんばろう」と思えたこと、<br>すばらしいですね。<br>けれども急にしたら<br>疲れてしまうかもしれません。<br>無理せず、少しずつ。<br>できることから始めてみませんか。", image: "bg4.jpg" },
-            { jp: "みほとけは みなさんの<br>心の中におわします。<br>やさしくしたい たすけたい 正直でいたい<br>そういう心、ちょっとはありますよね。<br>その“ちょっと”が、小さなみほとけです。", image: "bg5.jpg" },
-            { jp: "反省できるひとは、<br>きれいな心の持ち主です。", image: "bg6.jpg" },
-            { jp: "姿やカタチをきれいにするのは<br>とてもよいこと。それに心のこもった<br>言葉や態度が加われば<br>もっと美しくなれるのです。", image: "bg7.jpg" },
-            { jp: "楽しそう、素直そう、親切でやさしそう――「あのひとって、よいひとね」<br>と言われるような、<br>よいところ、 あなたにも、必ずあるはず。", image: "bg8.jpg" },
-            { jp: "努力しよう、よくしたいと思えること。<br>それも“しあわせ”。", image: "bg9.jpg" },
-            { jp: "ときには「はーっ」と<br>息をつきたくなること、ありますよね。<br>私もあります。そんなときは、<br>深呼吸して 酸素をいっぱい<br>体の中に入れて…。 <br><br>「さあ、またがんばりましょう」", image: "bg10.jpg" },
-            { jp: "ある時、ある場所で、一緒にすごすひとは<br>みほとけがめぐりあわせてくれた<br>大事なひとかもしれません。", image: "bg11.jpg" },
-            { jp: "「ありがたいな」思うたび、<br>心はかがやいていきます。", image: "bg12.jpg" },
-            { jp: "「こんな自分はだめだ･･･」と<br>ひっこまないで。<br>こんな自分を、みほとけは期待しています。こんな自分を、必要としている<br>ひとがいるのです。<br>前向きに、プラス思考で。<br><br> 力をだせたら、後悔はいりません。", image: "bg13.jpg" },
-            { jp: "おなじ経験をしなければ<br>ひとの気持ちにはなれないのでしょうか。<br>私は、そうは思いません。<br>苦しみや悲しみをいやしたい<br>少しでもわかちあいたい<br>その誠意があればつながります。", image: "bg14.jpg" },
-            { jp: "思いやりとは、<br>そのひとの心になっていくこと。", image: "bg15.jpg" },
-            { jp: "私も、おちこむことがあります。<br>けれども、そんなときは自分に<br>こう言いきかせてきりかえるのです。<br>「しかたがない、終わったこと。<br> 次は気をつけよう！」", image: "bg16.jpg" },
-            { jp: "自分のことをよく考えるのは大事。<br>ひとのことを自分ごととして<br>考えるのはもっと大事。<br>やさしく、あたたかく、ささえ、<br>つくしていくひとは<br>みほとけから大事にされます。", image: "bg17.jpg" },
-            { jp: "生まれてから今まで、どれだけ多くのひとが<br>あなたを助け愛情をかけてくれたか、<br>忘れないで。 みんな、家族にとって、<br>仲間にとって、私にとって、大切な命です。", image: "bg18.jpg" },
-            { jp: "ひとは誰も、完ぺきではありません。", image: "bg19.jpg" },
-            { jp: "ものを大切にしてしていくこと。<br>すべてに命があります。<br>大切にすれば、大切したものに守られます。<br>自然と自分、道具とひと、<br>みな一体です。", image: "bg20.jpg" },
-            { jp: "ひととのコミュニケーションで悩むこと、<br>ありませんか。そんなときは相手の<br>言うことに耳をかたむけてみましょう。<br>自分の考えを述べるのはそのあとで。<br>そうすれば距離を縮めることができます。", image: "bg21.jpg" },
-            { jp: "なごやかな、あたたかいほほえみで接する。<br>これを、和顔施（わがんせ）といいます。<br>みなさんも、笑顔で迎えられたら、<br>うれしいでしょう？<br>仏教の重要な修行のひとつです。", image: "bg22.jpg" },
-            { jp: "よいことをするにもはじめは“意識”して<br>おこなわないと続かないかもしれません。<br>何度も自分に言いきかせていくうちに<br>自然とよいことが“習慣”になります。<br>そのとき、ステキな自分が見つかりますよ。", image: "bg23.jpg" }
+            { jp: "いつも一緒。いつもあなたのそばに。<br>それが仏さまです。落ち込んだり、悲しかったり、<br>自信をなくしたりした時は、<br>そっと目を閉じて思い出してください。<br>あなたはいつも仏さまと一緒です。", image: "bg1.jpg" },
+            { jp: "あなたの優しさを通して、仏さまの「お心」に触れることができました。ありがとうございます。", image: "bg2.jpg" },
+            { jp: "言葉であれ、身振りであれ、コミュニケーションはとても大切です。<br>「おはようございます」「こんにちは」<br><br>まずは挨拶からはじめましょう。", image: "bg3.jpg" },
+            { jp: "「がんばろう」という気持ちになれたのは素晴らしいことです。<br>しかし、急に無理をしすぎると、<br>疲れてしまうかもしれません。<br>焦らず、一歩ずつ進んでいきましょう。<br>まずは自分にできることからはじめてみませんか？", image: "bg4.jpg" },
+            { jp: "仏さまは、みんなの心の中に<br>いらっしゃいます。<br>優しくしたい、助けたい、正直でありたい――<br>あなたにもそんな心が少しはあるでしょう？<br>その「少しの心」が、小さな仏さまなのです。", image: "bg5.jpg" },
+            { jp: "自分自身を振り返ることができる人は、<br>美しい心を持っています。", image: "bg6.jpg" },
+            { jp: "身だしなみを整え、美しくすることは<br>とても良いことです。さらに、そこに心のこもった<br>言葉づかいや態度が加われば、<br>あなたをもっと美しくすることができます。", image: "bg7.jpg" },
+            { jp: "明るく、素直で、優しく、温かい――「あの人は素敵な人だな」と、<br>誰かが言っているかもしれません。<br>あなたにもきっとそんな良いところがあります。<br>私たちはそれぞれ、特別な良さを持っているのです。", image: "bg8.jpg" },
+            { jp: "「努力したい」「自分を高めたい」と思えること――<br>それ自体がすでに「幸せ」なのです。", image: "bg9.jpg" },
+            { jp: "時には、深呼吸をして「ふぅ」と<br>一息つきたくなることもありますよね？<br>私にもあります。そんな時は、<br>深く息を吸って、体に酸素を満たしてあげましょう…<br><br>「さあ、またがんばろう」", image: "bg10.jpg" },
+            { jp: "ある時間、ある場所で一緒に過ごす人は、<br>仏さまがあなたの人生に合わせてくださった、大切な人かもしれません。", image: "bg11.jpg" },
+            { jp: "感謝の気持ちを持つたびに、<br>あなたの心はより輝きます。", image: "bg12.jpg" },
+            { jp: "「自分なんてだめだ…」と<br>後ろを向かないでください。<br>仏さまは、ありのままのあなたに期待しています。ありのままのあなたを<br>必要としている人がいます。<br>前を向いて、ポジティブに考えましょう。<br><br>ベストを尽くしたのなら、後悔する必要はありません。", image: "bg13.jpg" },
+            { jp: "相手の気持ちを理解するためには、<br>同じ経験をしなければならないのでしょうか？<br>私はそうは思いません。<br>苦しみや悲しみを和らげたい、<br>少しでも分かち合いたいという誠実な心があれば、私たちはつながることができます。", image: "bg14.jpg" },
+            { jp: "思いやりとは、<br>相手の心に寄り添うことです。", image: "bg15.jpg" },
+            { jp: "私だって落ち込むことはあります。<br>でも、そんな時は自分にこう言い聞かせて<br>気持ちを切り替えます。<br>「仕方がない、もう終わったことだ。<br>次は気をつけよう！」", image: "bg16.jpg" },
+            { jp: "自分のことを考えるのも大切ですが、<br>相手のことを自分のこととして考えるのは<br>もっと大切です。<br>優しく、温かく、寄り添い、<br>誰かのために尽くせる人は、仏さまに大切にされます。", image: "bg17.jpg" },
+            { jp: "生まれてから今日まで、どれほど多くの人があなたを助け、愛を注いでくれたかを思い出してください。みんなの命は、<br>家族にとっても、友人にとっても、そして私にとっても、かけがえのない大切なものです。", image: "bg18.jpg" },
+            { jp: "完璧な人など、この世に一人もいません。", image: "bg19.jpg" },
+            { jp: "モノを大切にしましょう。すべてのモノに命があります。<br>モノを大切にすれば、大切にされたモノがあなたを守ってくれます。<br>自然と自分、道具と人――<br>すべては一つにつながっています。", image: "bg20.jpg" },
+            { jp: "相手の気持ちを理解するためには、<br>同じ経験をしなければならないのでしょうか？<br>私はそうは思いません。<br>苦しみや悲しみを和らげたい、<br>少しでも分かち合いたいという誠実な心があれば、私たちはつながることができます。", image: "bg21.jpg" },
+            { jp: "穏やかで温かい笑顔で相手を迎えることを、<br>「和顔施（わがんせ）」と言います。<br>笑顔で迎えられたら、あなたも嬉しいでしょう？<br>これは仏教における大切な実践の一つです。", image: "bg22.jpg" },
+            { jp: "良い行いをするには、最初は続けるために意識的な努力が必要かもしれません。何度も自分に言い聞かせているうちに、<br>良い行いは自然と「習慣」になります。<br>その瞬間、素晴らしい自分に出会うことができるでしょう。", image: "bg23.jpg" }
         ];
 
-        // 🔗 GASのウェブアプリURL（★ご自身のURLに差し替えてください★）
-        const gasUrl = 'https://script.google.com/macros/s/AKfycby-u6eWb9JhTUeBDBwDxMiLHYYTrAhhTxEmBzGpRHiTb7YW4RRHgKJsen-60VmVptNg/exec';
+        // 🔗 GAS Web App URL (★作成したGASのWebアプリURLに差し替えてください★)
+        const gasUrl = 'https://script.google.com/macros/s/AKfycbzgXBqC3YBJoxRNMcrty_hLHgysKk-iDeqKlE0EWKggNzA8V73Cix0hd0REpVfQZA5n/exec';
 
         function getOrCreateDeviceId() {
             let id = localStorage.getItem('deviceId');
@@ -164,87 +164,81 @@
             return id;
         }
 
-        // 🎬 ページ読み込み時の処理（自動実行）
         window.onload = function() {
             try {
-                // 1. お言葉をランダム表示
                 refreshQuote();
-                
-                // 2. 開いた瞬間に、裏側で参拝ログ（access）を自動送信
-                sendAutoAccessLog();
+                sendAutoAccessLog(); // バックグラウンド自動アクセス送信
             } catch (error) {
-                console.error("初期化エラー:", error);
+                console.error("Initialization error:", error);
             }
         };
 
-        // 🎲 お言葉をランダムに抽選して表示する関数
         function refreshQuote() {
             if (quotesData.length === 0) return;
             const randomIndex = Math.floor(Math.random() * quotesData.length);
             const selectedSet = quotesData[randomIndex];
-            
-            // 背景画像変更
             document.body.style.backgroundImage = `url('../${selectedSet.image}')`;
             
-            // お言葉表示
             let htmlContent = "";
             if(selectedSet.jp) htmlContent += `<div class="lang-block lang-japanese">${selectedSet.jp}</div>`;
             document.getElementById("content-body").innerHTML = htmlContent;
         }
 
-        // 📡 自動で参拝記録（アクセス）を送信する関数
+        // 📡 自動アクセスログ送信 (no-corsを取り除き、確実に1回だけカウント)
         function sendAutoAccessLog() {
+            const payload = { 
+                type: "access", 
+                lang: "jp",       // 👈 GAS側のC列 (JP) にカウントを加算するため明示
+                status: "Auto",   
+                country: "Auto",  
+                deviceId: getOrCreateDeviceId()
+            };
+
             fetch(gasUrl, {
                 method: 'POST',
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    type: "access", 
-                    lang: "jp",       // 👈 「日本語QR」からのアクセスであることをGASに伝えます
-                    status: "Auto",   
-                    country: "Auto",  
-                    deviceId: getOrCreateDeviceId()
-                })
+                headers: { 'Content-Type': 'text/plain' }, 
+                body: JSON.stringify(payload)
             })
-            .catch((err) => { console.error("アクセスデータ自動送信失敗:", err); });
+            .catch((err) => { console.error("Auto log transmission failed:", err); });
         }
 
-        // 💌 感謝フォームの表示切り替え
         function toggleForm() {
             document.getElementById('message-form-container').style.display = 'block';
             document.getElementById('action-btn').style.display = 'none';
         }
 
-        // 📤 感謝のメッセージ送信処理
+        // 📤 メッセージフォーム送信処理
         const form = document.getElementById('thank-you-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) { submitBtn.innerText = "送信中..."; submitBtn.disabled = true; }
+            if (submitBtn) { 
+                submitBtn.innerText = "Sending..."; 
+                submitBtn.disabled = true; // 送信ボタンを即時無効化（連打防止）
+            }
 
             const formData = new FormData(form);
-            formData.append("type", "message"); 
-            formData.append("lang", "jp");    // 👈 送信されたメッセージの言語も「jp」に指定
-            formData.append("status", "Auto"); 
-            formData.append("country", "Auto");
-            formData.append("deviceId", getOrCreateDeviceId());
-
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
+            const payload = Object.fromEntries(formData);
+            
+            payload.type = "message";
+            payload.lang = "jp"; // 👈 日本語のメッセージであることを指定
+            payload.status = "Auto";
+            payload.country = "Auto";
+            payload.deviceId = getOrCreateDeviceId();
 
             fetch(gasUrl, { 
                 method: 'POST', 
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: json 
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
             })
-            .then(() => {
-                alert("送信されました。ありがとうございました。");
+            .then(res => {
+                // 💡 ご希望に合わせ、ポップアップ言語は英語をキープ
+                alert("Your message of gratitude has been sent. Thank you very much.");
                 form.reset();
                 document.getElementById('message-form-container').style.display = 'none';
                 const actionBtn = document.getElementById('action-btn');
                 if (actionBtn) {
-                    actionBtn.innerText = "💌 送信完了";
+                    actionBtn.innerText = "💌 Sent";
                     actionBtn.style.display = 'inline-block';
                     actionBtn.disabled = true;
                     actionBtn.style.backgroundColor = "#ccc";
@@ -252,8 +246,8 @@
                 }
             })
             .catch((error) => {
-                alert("通信エラーが発生しました。再度お試しください。");
-                if (submitBtn) { submitBtn.innerText = "送信する"; submitBtn.disabled = false; }
+                alert("A connection error occurred. Please try again.");
+                if (submitBtn) { submitBtn.innerText = "Submit"; submitBtn.disabled = false; }
             });
         });
     </script>

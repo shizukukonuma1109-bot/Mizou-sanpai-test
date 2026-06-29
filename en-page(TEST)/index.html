@@ -26,27 +26,38 @@
             padding: 20px;
         }
 
+        /* 📦 タイトルとお言葉コンテナをまとめる外枠 */
+        #wrapper {
+            max-width: 390px; 
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* 上下の箱のすき間 */
+        }
+
+        /* 🏷️ 新設：独立したタイトル専用コンテナ */
+        #title-container {
+            background: rgba(255, 255, 255, 0.5); /* 👈 透明度 0.5 */
+            padding: 12px 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #444;
+        }
+
         /* 📜 メインコンテナ */
         #quote-container {
-            background: rgba(255, 255, 255, 0.5); /* 👈 透明度 0.5 をキープ */
+            background: rgba(255, 255, 255, 0.5); /* 👈 透明度 0.5 */
             padding: 35px 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            max-width: 390px; 
             width: 100%;
             box-sizing: border-box;
-            max-height: 85vh; 
+            max-height: 75vh; /* タイトルの分、高さを少し調整 */
             overflow-y: auto;
-        }
-
-        /* 🏷️ 追加：メッセージタイトル用スタイル */
-        .message-title {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #555;
-            margin-bottom: 20px;
-            font-weight: bold;
         }
 
         .lang-block {
@@ -116,25 +127,31 @@
 </head>
 <body>
 
-    <div id="quote-container">
-        <!-- 🏷️ お言葉の上にタイトルを表示するエリアを追加 -->
-        <div class="message-title">Message from Shinso Ito</div>
+    <!-- 📦 全体を綺麗に整列させるための外枠 -->
+    <div id="wrapper">
         
-        <div id="content-body">Loading...</div>
-         
-        <br>
-        <button id="action-btn" onclick="toggleForm()">💌 Message of Gratitude</button>
-         
-        <div id="message-form-container">
-            <form id="thank-you-form" method="POST">
-                <input type="text" name="bukai" placeholder="Division (Optional)">
-                <input type="text" name="kei" placeholder="Lineage (Optional)">
-                <input type="text" name="name" placeholder="Name (Optional)">
-                <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
-                <br>
-                <button type="submit" id="submit-btn">Submit</button>
-            </form>
+        <!-- 🏷️ お言葉の箱の上に、独立した上品なタイトル箱を配置 -->
+        <div id="title-container">Message from Shinso Ito</div>
+
+        <!-- 📜 メインのお言葉コンテナ -->
+        <div id="quote-container">
+            <div id="content-body">Loading...</div>
+             
+            <br>
+            <button id="action-btn" onclick="toggleForm()">💌 Message of Gratitude</button>
+             
+            <div id="message-form-container">
+                <form id="thank-you-form" method="POST">
+                    <input type="text" name="bukai" placeholder="Division (Optional)">
+                    <input type="text" name="kei" placeholder="Lineage (Optional)">
+                    <input type="text" name="name" placeholder="Name (Optional)">
+                    <textarea name="message" rows="4" placeholder="Please enter your message..." required></textarea>
+                    <br>
+                    <button type="submit" id="submit-btn">Submit</button>
+                </form>
+            </div>
         </div>
+
     </div>
 
     <script>

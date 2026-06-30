@@ -138,7 +138,7 @@
             <div id="content-body">Loading...</div>
              
             <br>
-            <button id="action-btn" onclick="toggleForm()">💌Send a Message of gratitude</button>
+            <button id="action-btn" onclick="toggleForm()">💌 Send A Message of Gratitude</button>
              
             <div id="message-form-container">
                 <form id="thank-you-form" method="POST">
@@ -153,33 +153,33 @@
         </div>
 
     </div>
-    
+
     <script>
         // 🌸 聖句データ（35〜40文字目安で美しく改行）
         const quotesData = [
-            { en: "The buddhas are always with us, right by our side. Close your eyes and remember this whenever you are feeling low or facing difficulties in your life.", image: "bg1.jpg" },
-            { en: "I come to understand the Buddha's heart through your warmth. Thank you.", image: "bg2.jpg" },
-            { en: "Communication is very important. “Good morning.” “Hello!” Let’s begin with greetings.", image: "bg3.jpg" },
-            { en: "Striving to do your best is a wonderful thing, but you may wear yourself out if you try too hard at the beginning. Set achievable goals and move forward little by little.", image: "bg4.jpg" },
-            { en: "Buddha lies in everyone's heart. We all want to be kind, helpful, and truthful in some way. Whenever we feel like this, we discover a buddha in our own hearts.", image: "bg5.jpg" },
-            { en: "Those who can reflect on themselves have pure hearts.", image: "bg6.jpg" },
-            { en: "It's nice to look good, but that alone does not define beauty. With sincere words and conduct, anyone can be truly beautiful.", image: "bg7.jpg" },
-            { en: "Cheerful, truthful, kind, warm — each of us has something special to offer.", image: "bg8.jpg" },
-            { en: "Having the strength to try your best or the wish to do better in itself brings happiness.", image: "bg9.jpg" },
-            { en: "Sometimes we all get tensed up. When I feel that way, I take a deep breath and then I'm ready to try my best again.", image: "bg10.jpg" },
-            { en: "The buddhas guide you to encounter people at certain times and places for a reason.", image: "bg11.jpg" },
-            { en: "Your heart shines each time you feel gratitude.", image: "bg12.jpg" },
-            { en: "Never think, "I have nothing to offer!" The buddhas and many others count on you. Look forward and think positively. Just do your best, and you'll have no regrets.", image: "bg13.jpg" },
-            { en: "Can we only sympathize with those whose experiences match our own? I think we can connect with others as long as we sincerely try to understand them and soothe their pain.", image: "bg14.jpg" },
-            { en: "Being considerate means empathizing with others.", image: "bg15.jpg" },
-            { en: "When something happens to bring me down, I tell myself to snap out of it, saying “There’s no use crying over spilled milk! I’ll be more careful and do better next time."", image: "bg16.jpg" },
-            { en: "It’s important to consider your own needs, but more important to think of others. The buddhas will look after you when you try to be kind, warm, supportive, and devoted to others.", image: "bg17.jpg" },
-            { en: "Never forget that many people have helped and loved you since the day you were born. Your life is important to your family, your friends, and me.", image: "bg18.jpg" },
+            { en: "The buddhas are always with us,<br>right by our side.<br>Close your eyes and remember this<br>whenever you are feeling low<br>or facing difficulties in your life.", image: "bg1.jpg" },
+            { en: "I come to understand<br>the Buddha's heart<br>through your warmth.<br>Thank you.", image: "bg2.jpg" },
+            { en: "Communication is very important.<br>“Good morning.” “Hello!”<br>Let’s begin with greetings.", image: "bg3.jpg" },
+            { en: "Striving to do your best<br>is a wonderful thing,<br>but you may wear yourself out<br>if you try too hard at the beginning.<br>Set achievable goals<br>and move forward little by little.", image: "bg4.jpg" },
+            { en: "Buddha lies in everyone's heart.<br>We all want to be kind,<br>helpful, and truthful in some way.<br>Whenever we feel like this,<br>we discover a buddha<br>in our own hearts.", image: "bg5.jpg" },
+            { en: "Those who can reflect<br>on themselves<br>have pure hearts.", image: "bg6.jpg" },
+            { en: "It's nice to look good,<br>but that alone does not define beauty.<br>With sincere words and conduct,<br>anyone can be truly beautiful.", image: "bg7.jpg" },
+            { en: "Cheerful, truthful, kind, warm —<br>each of us has something<br>special to offer.", image: "bg8.jpg" },
+            { en: "Having the strength to try your best<br>or the wish to do better<br>in itself brings happiness.", image: "bg9.jpg" },
+            { en: "Sometimes we all get tensed up.<br>When I feel that way,<br>I take a deep breath and then<br>I'm ready to try my best again.", image: "bg10.jpg" },
+            { en: "The buddhas guide you to encounter<br>people at certain times and places<br>for a reason.", image: "bg11.jpg" },
+            { en: "Your heart shines each time<br>you feel gratitude.", image: "bg12.jpg" },
+            { en: "Never think, \"I have nothing to offer!\"<br>The buddhas and many others<br>count on you.<br>Look forward and think positively.<br>Just do your best,<br>and you'll have no regrets.", image: "bg13.jpg" },
+            { en: "Can we only sympathize with those<br>whose experiences match our own?<br>I think we can connect with others<br>as long as we sincerely try<br>to understand them and soothe their pain.", image: "bg14.jpg" },
+            { en: "Being considerate means<br>empathizing with others.", image: "bg15.jpg" },
+            { en: "When something happens to<br>bring me down,I tell myself to snap out of it,<br>saying “There’s no use crying<br>over spilled milk!<br>I’ll be more careful and do better<br>next time.”", image: "bg16.jpg" },
+            { en: "It’s important to consider<br>your own needs,<br>but more important to think of others.<br>The buddhas will look after you<br>when you try to be kind, warm,<br>supportive, and devoted to others.", image: "bg17.jpg" },
+            { en: "Never forget that many people<br>have helped and loved you<br>since the day you were born.<br>Your life is important to your family,<br>your friends, and me.", image: "bg18.jpg" },
             { en: "No one is perfect.", image: "bg19.jpg" },
-            { en: "Treat all things as if they are alive and worthy of care. The more you cherish everything around you, the more blessed your life will be. Nature and the self, objects and people — all are one.<br>Nature and the self,<br> objects and people<br>— all are one.", image: "bg20.jpg" },
-            { en: "We all find it difficult to communicate at times. Whenever this happens to you, listen carefully to the other person before giving your opinion. It will help to bring you closer together.", image: "bg21.jpg" },
-            { en: "Everyone loves to be greeted with a smile. Giving someone a warm smile is also an important aspect of Buddhist training. It is a form of dana paramita.", image: "bg22.jpg" },
-            { en: "When you try to do something good, you may need to make a conscious effort to follow through at first. Eventually, however, it will become a natural part of your behavior. Then you can discover the beautiful person within you.", image: "bg23.jpg" }
+            { en: "Treat all things as if they are<br>alive and worthy of care.<br>The more you cherish everything<br>around you,<br>the more blessed your life will be.<br>Nature and the self,<br>objects and people — all are one.", image: "bg20.jpg" },
+            { en: "We all find it difficult to<br>communicate at times.<br>Whenever this happens to you,<br>listen carefully to the other person<br>before giving your opinion.<br>It will help to bring you<br>closer together.", image: "bg21.jpg" },
+            { en: "Everyone loves to be greeted<br>with a smile.<br>Giving someone a warm smile is also<br>an important aspect of Buddhist training.<br>It is a form of dana paramita.", image: "bg22.jpg" },
+            { en: "When you try to do something good,<br>you may need to make a conscious<br>effort to follow through at first.<br>Eventually, however, it will become<br>a natural part of your behavior.<br>Then you can discover the beautiful<br>person within you.", image: "bg23.jpg" }
         ];
 
         // 🔗 GAS Web App URL
